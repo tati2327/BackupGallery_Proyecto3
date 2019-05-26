@@ -21,7 +21,7 @@ void MainWindow::on_enterButton_clicked()
 
     textFromIDE = ui->textEdit->toPlainText();
 
-    qInfo() << textFromIDE;
+    identifyIDEFunction(textFromIDE);
 
 }
 
@@ -30,3 +30,17 @@ void MainWindow::on_deleteButton_clicked()
     ui->textEdit->clear();
 }
 
+void MainWindow::identifyIDEFunction(QString text){
+
+    int textIndex = 0;
+    textIndex = text.indexOf(" ");
+
+    QStringRef txtFunction(&text,0,textIndex);
+    //qInfo() <<textIndex+1;
+    //qInfo() << text.at(textIndex);
+    qInfo() << txtFunction;
+
+
+
+
+}

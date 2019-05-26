@@ -25,6 +25,8 @@ private slots:
     //!Delete fuction: to clear what its in myIDE Editor
     void on_deleteButton_clicked();
 
+    void identifyIDEFunction(QString text);
+
 private:
     Ui::MainWindow *ui;
 };
