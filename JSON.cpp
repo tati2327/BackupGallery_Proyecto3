@@ -1,6 +1,11 @@
-#include "JSON.h"
 #include <cstdio>
 #include <cstring>
+#include "JSON.h"
+#include "JSON.h"
+#include <cstdio>
+
+using namespace rapidjson;
+using namespace std;
 
 Document document(kObjectType);
 
@@ -11,100 +16,15 @@ void JSON::jsonToDocument(string json) {
     cout<<"De json a documento exitosamente!!"<<endl;
 }
 
-string JSON::serializeRequest() {
-    document.RemoveAllMembers();
-    Document::AllocatorType& allocator = document.GetAllocator();
-    document.AddMember("request",1, allocator);
-    document.AddMember("message","nuevo juego", allocator);
-
-    StringBuffer strbuf;
-    Writer<StringBuffer> writer(strbuf);
-    document.Accept(writer);
-
-    cout<<"***********************************************************"<<endl;
-    std::cout <<strbuf.GetString()<< std::endl;
-    cout<<"*****************messageServer******************************************"<<endl;
-    return strbuf.GetString();
-}
-
-int JSON::getRequest(){
-    return document["request"].GetInt();
-}
-
-int JSON::getSizeData()
-{
-    return document["size"].GetInt();    
-}
-
-List<string> JSON::getValue1()
-{
-    List<string> value;
-    Value temp = document["value1"].GetArray();
-    for(int i = 0; i < temp.Size(); i++){
-        value.add(temp[i].GetString());
-    }
-    return value;   
-}
-
-List<string> JSON::getValue2()
-{
-    List<string> value;
-    Value temp = document["value2"].GetArray();
-    for(int i = 0; i < temp.Size(); i++){
-        value.add(temp[i].GetString());
-    }
-    return value; 
-}
-
-List<string> JSON::getValue3()
-{
-    List<string> value;
-    Value temp = document["value3"].GetArray();
-    for(int i = 0; i < temp.Size(); i++){
-        value.add(temp[i].GetString());
-    }
-    return value; 
-}
-
-List<string> JSON::getValue4()
-{
-    List<string> value;
-    Value temp = document["value4"].GetArray();
-    for(int i = 0; i < temp.Size(); i++){
-        value.add(temp[i].GetString());
-    }
-    return value; 
-}
-
-List<string> JSON::getValue5()
-{
-    List<string> value;
-    Value temp = document["value5"].GetArray();
-    for(int i = 0; i < temp.Size(); i++){
-        value.add(temp[i].GetString());
-    }
-    return value; 
-}
-
-List<string> JSON::getValue6()
-{
-    List<string> value;
-    Value temp = document["value6"].GetArray();
-    for(int i = 0; i < temp.Size(); i++){
-        value.add(temp[i].GetString());
-    }
-    return value; 
-}
-
 string JSON::serializeInsertMsg(int id, string name, string author, int year, int size,
                            string description) {
     document.RemoveAllMembers();
     Document::AllocatorType& allocator = document.GetAllocator();
 
+
     Value nameString(name.c_str(), allocator);
     Value authorString(author.c_str(), allocator);
     Value descriptionString(description.c_str(), allocator);
-
     document.AddMember("request",1, allocator);
     document.AddMember("id", id, allocator);
     document.AddMember("age", nameString, allocator);
@@ -165,22 +85,36 @@ string JSON::serializeUpdateMsg(string columnName, string value, string conditio
 }
 
 string JSON::serializeSelectMsg(string columnName){
+   
         document.RemoveAllMembers();
         Document::AllocatorType& allocator = document.GetAllocator();
-
+    
         Value columnNameString(columnName.c_str(), allocator);
-
+       
         document.AddMember("request", 3, allocator);
         document.AddMember("columnName", columnNameString, allocator);
-
-
+      
+    
         StringBuffer strbuf;
         Writer<StringBuffer> writer(strbuf);
         document.Accept(writer);
-
+    
         cout<<"***********************************************************"<<endl;
         std::cout <<strbuf.GetString()<< std::endl;
         cout<<"***********************************************************"<<endl;
         return strbuf.GetString();
+    
+}
 
+
+int JSON::getRequest() {
+    return document["request"].GetInt();
+}
+
+void JSON::stringifyJSON() {
+    cout<<"Modified JSON with reformatting: "<<endl;
+    StringBuffer sb;
+    PrettyWriter<StringBuffer> writer(sb);
+    document.Accept(writer);    // Accept() traverses the DOM and generates Handler events.
+    puts(sb.GetString());
 }

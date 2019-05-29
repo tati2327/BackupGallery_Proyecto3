@@ -18,6 +18,10 @@ class JSON {
         void jsonToDocument(string json);
 
         string serializeRequest();
+        string serializeInsertMsg(int id, string name, string author, int year, int size, string description);
+        string serializeDeleteMsg(string deleteMsg);
+        string serializeUpdateMsg(string columnName, string value, string condition);
+        string serializeSelectMsg(string columnName);
 
         int getRequest();
         int getSizeData();

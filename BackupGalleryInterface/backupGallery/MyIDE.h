@@ -34,6 +34,10 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_enterButton_clicked();
+
+    void on_deleteButton_clicked();
+
 private:
     Ui::myIDE *ui;
     Client myClient;

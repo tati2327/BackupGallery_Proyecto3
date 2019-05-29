@@ -116,3 +116,15 @@ void myIDE::on_pushButton_2_clicked()
         qDebug()<<filename;
     }
 }
+
+void myIDE::on_enterButton_clicked()
+{
+    QString textFromIDE;
+    textFromIDE = ui->textEdit->toPlainText();
+    qInfo() << textFromIDE;
+}
+
+void myIDE::on_deleteButton_clicked()
+{
+    ui->textEdit->clear();
+}
