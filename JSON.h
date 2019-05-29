@@ -2,13 +2,12 @@
 #define JSON_H
 
 #include <iostream>
-#include <allocators.h>
-#include <document.h>
-#include <prettywriter.h>
-#include <fwd.h>
-#include <stringbuffer.h>
-#include <cstdio>
-#include <writer.h>
+#include "include/rapidjson/allocators.h"
+#include "include/rapidjson/stringbuffer.h"
+#include "include/rapidjson/document.h"
+#include "include/rapidjson/writer.h"
+#include "List.h"
+#include "QString"
 
 using namespace rapidjson;
 using namespace std;
@@ -17,34 +16,21 @@ class JSON {
     public:
         JSON();
         void jsonToDocument(string json);
+
+        string serializeRequest();
         string serializeInsertMsg(int id, string name, string author, int year, int size, string description);
         string serializeDeleteMsg(string deleteMsg);
         string serializeUpdateMsg(string columnName, string value, string condition);
-        //string serializeGraphic(List<int> resistance, List<int> uperStrenght, List<int> lowerStrenght,
-          //                      List<int> emotionalInt, List<int> physicalCond, List<int> age, List<int> expectedGenerations,
-            //                    List<int> survivalProb, List<int> fitness, List<int> id);
+        string serializeSelectMsg(string columnName);
 
         int getRequest();
-        void stringifyJSON();
+        int getSizeData();
+        List<string> getValue1();
+        List<string> getValue2();
+        List<string> getValue3();
+        List<string> getValue4();
+        List<string> getValue5();
+        List<string> getValue6();
 };
-
-/*
-class JSON {
-    public:
-
-
-        int jsonToDocument(int request);
-        void accesToDocument(int request);
-        void request1(int _id, string _name, int _players);
-        void request2(string _name, string _letter, int _x, int _y);
-        void request3(string _name);
-        void request4(string _name, bool _accept, int _score, bool _playing);
-        void request5(string _name, bool _add);
-
-
-    private:
-        Document document;
-
-};*/
 
 #endif // JSON_H

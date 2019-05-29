@@ -84,15 +84,30 @@ string JSON::serializeUpdateMsg(string columnName, string value, string conditio
     return strbuf.GetString();
 }
 
+string JSON::serializeSelectMsg(string columnName){
+   
+        document.RemoveAllMembers();
+        Document::AllocatorType& allocator = document.GetAllocator();
+    
+        Value columnNameString(columnName.c_str(), allocator);
+       
+        document.AddMember("request", 3, allocator);
+        document.AddMember("columnName", columnNameString, allocator);
+      
+    
+        StringBuffer strbuf;
+        Writer<StringBuffer> writer(strbuf);
+        document.Accept(writer);
+    
+        cout<<"***********************************************************"<<endl;
+        std::cout <<strbuf.GetString()<< std::endl;
+        cout<<"***********************************************************"<<endl;
+        return strbuf.GetString();
+    
+}
+
 
 int JSON::getRequest() {
     return document["request"].GetInt();
 }
 
-void JSON::stringifyJSON() {
-    cout<<"Modified JSON with reformatting: "<<endl;
-    StringBuffer sb;
-    PrettyWriter<StringBuffer> writer(sb);
-    document.Accept(writer);    // Accept() traverses the DOM and generates Handler events.
-    puts(sb.GetString());
-}

@@ -26,14 +26,31 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += include/rapidjson
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-    JSON.cpp
+        Client.cpp \
+        JSON.cpp \
+        MyIDE.cpp \
+        ReadData.cpp \
+        main.cpp
 
 HEADERS += \
-        mainwindow.h \
         test.h \
-    JSON.h
+        JSON.h \
+        Client.h \
+        List.h \
+        List_def.h \
+        MyIDE.h \
+        Node.h \
+        Node_def.h \
+        ReadData.h \
+
 
 FORMS += \
-        mainwindow.ui
+        myide.ui
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    Resources/imageDefault.jpg
