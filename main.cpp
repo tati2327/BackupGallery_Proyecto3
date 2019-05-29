@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-//#include <QApplication>
+#include <QApplication>
 #include <iostream>
 #include <allocators.h>
 #include <cstdio>
@@ -11,23 +11,24 @@
 
 using namespace rapidjson;
 using namespace std;
-
+/*
 int main(int, char*[]) {
 
     JSON j;
-    string hi = j.serializeInsertMsg(2,"salud","Me",1995,0,"cuando era saludable");
+    string hi = j.serializeDeleteMsg("salud");
     j.jsonToDocument(hi);
+
     //j.accesToDocument(1);
     //j.request1(45, "ss",4);
     //j.stringifyJSON();
-}
+}*/
 
 
-/*int main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
 
     return a.exec();
-}*/
+}
