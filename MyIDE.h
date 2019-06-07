@@ -35,6 +35,10 @@ public:
 
     void sendSelectCommand(QString text, int textIndex);
 
+    void sendDeleteCommand(QString text, int textIndex);
+
+    void sendUpdateCommand(QString text, int textIndex);
+
 private slots:
     void on_pushButton_clicked();
 
