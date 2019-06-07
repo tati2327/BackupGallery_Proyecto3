@@ -121,10 +121,9 @@ void myIDE::on_enterButton_clicked()
 {
     QString textFromIDE;
     textFromIDE = ui->textEdit->toPlainText();
-    qInfo() << textFromIDE;
-
+    qInfo() <<endl << "Text recieved from IDE: " << textFromIDE <<endl;
     identifyIDEFunction(textFromIDE);
-
+    ui->textEdit->clear();
 }
 
 void myIDE::on_deleteButton_clicked()
@@ -139,101 +138,128 @@ void myIDE::identifyIDEFunction(QString text){
 
     QStringRef txtFunction(&text,0,textIndex);
     //qInfo() <<textIndex+1;
-    //qInfo() << text.at(textIndex);
-    qInfo() << txtFunction;
+    qInfo() << "--------------------------------------------------------------------------------------";
+    qInfo() <<"Executing Command: " << txtFunction;
 
     if(txtFunction == "INSERT"){
 
-        //!Extracts command INTO
-        QStringRef txtFunction(&text,textIndex+1,4);
-
-        //!Validates if command id written correctly
-        if(txtFunction == "INTO"){
-
-            //!Extracts text after INTO statement to the rest of the text
-             QStringRef txtFunction(&text, textIndex+6, text.size()-(textIndex+6));
-             textIndex = txtFunction.indexOf(" ");
-             text = txtFunction.toString();
-
-             //!Extracts the name of the tableInserted
-             QStringRef tableNameValidation(&text, 0, textIndex);
-
-             //!VALIDATES IF TABLE NAME PROVIDED IS EQUAL TO TABLE NAME OF THE NoSQL Table of the system
-             qInfo() << "name validation: "<< tableNameValidation;
-
-             if(tableNameValidation == "invencibleLibrary"){
-
-                 QStringRef txtFunction(&text, textIndex+1, 6);
-
-                 //!Validates command VALUES
-                 if(txtFunction == "VALUES"){
-
-                     textIndex = text.indexOf("(");
-
-                     qInfo() <<"value of ("<<textIndex;
-                     qInfo()<< text;
-
-                     QStringRef txtFunction(&text, textIndex, text.size()-textIndex);
-                     qInfo() <<"text after VALUES : "<< txtFunction;
-                     text = txtFunction.toString(); //SIEMPRE DEBE IR POSTERIOR A LA LLAMADA DE QSTRINGREF
-
-                     //!Extract text for name
-                     textIndex = text.indexOf(" ");
-                     QStringRef name(&text,1,textIndex-2);
-
-                     qInfo() << "name: " <<name;
-
-                     QStringRef txtFunction2(&text, textIndex+1, text.size()-textIndex-1);
-                     qInfo() << "text after name: " << txtFunction2;
-                     text = txtFunction2.toString();
-
-                     //!Extract text for author
-                     textIndex = text.indexOf(" ");
-                     QStringRef author(&text,0,textIndex-1);
-
-                     qInfo() << "author: " <<author;
-
-                     QStringRef txtFunction3(&text, textIndex+1, text.size()-textIndex-1);
-                     qInfo() << "text after name: " << txtFunction3;
-                     text = txtFunction3.toString();
-
-                     //!Extract text for year
-                     textIndex = text.indexOf(" ");
-                     QStringRef year(&text,0,textIndex-1);
-
-                     qInfo() << "year: " <<year;
-
-                     QStringRef txtFunction4(&text, textIndex+1, text.size()-textIndex-1);
-                     qInfo() << "text after name: " << txtFunction4;
-                     text = txtFunction4.toString();
-
-                     //!Extract text for size
-                     textIndex = text.indexOf(" ");
-                     QStringRef size(&text,0,textIndex-1);
-
-                     qInfo() << "size: " << size;
-
-                     QStringRef txtFunction5(&text, textIndex+1, text.size()-textIndex-1);
-                     qInfo() << "text after name: " << txtFunction5;
-                     text = txtFunction5.toString();
-
-                     //!Extract text for description
-                     textIndex = text.indexOf(")");
-                     QStringRef description(&text,0,textIndex);
-
-                     qInfo() << "description: " << description;
-
-
-
-                 }
-                //TEST INSERT INTO invencibleLibrary VALUES (FAJKHAS,DSJDHSSD,DSDD)
-             }
-        }
-
-
-
-        //QStringRef tableNameValidation
-
+        sendInsertCommand(text,textIndex);
+        qInfo() << "--------------------------------------------------------------------------------------";
     }
 
+    else if(txtFunction == "SELECT"){
+
+        sendSelectCommand(text, textIndex);
+        qInfo() << "--------------------------------------------------------------------------------------";
+    }
+}
+
+void myIDE::sendSelectCommand(QString text, int textIndex){
+
+    //!Extracts column or (*)
+    QStringRef txtFunction(&text, textIndex+1, text.size()-(textIndex+1));
+
+    //!Validates if it will be extratect a column or all columns
+    textIndex = txtFunction.indexOf(" ");
+    text = txtFunction.toString();
+    QStringRef txtFunction2(&text,0,textIndex);
+    qInfo() <<"Extract column: " << txtFunction2;
+
+    if(txtFunction2 == "*" || txtFunction2 == "ID" || txtFunction2 == "Author"
+            || txtFunction2 == "Year" || txtFunction2 == "Size" || txtFunction2 == "Description"){
+
+        //!Extracts FROM
+         QStringRef txtFunction(&text, textIndex+1,4);
+
+         //text = txtFunction.toString();
+         qInfo() << "Validate FROM: " << txtFunction;
+
+         //!Extracts the name of the table
+         QStringRef txtFunction2(&text, textIndex+6, text.size()-(textIndex+6));
+         qInfo() << "table_name validation: "<< txtFunction2;
+
+         //!Verify the name of the table
+         if(txtFunction2 == "invencibleLibrary"){
+             qInfo() << "command executed sucessfully";
+         }
+
+         else{
+             qInfo() << "tablename not excecuted correctly";
+         }
+    }
+
+    else {
+        qInfo() << "not recognize column name provided.";
+    }
+}
+
+void myIDE::sendInsertCommand(QString text, int textIndex){  //TEST INSERT INTO invencibleLibrary VALUES (FAJ, HAS, DSJD, HSSD, DSDD)
+    //!Extracts command INTO
+    QStringRef txtFunction(&text,textIndex+1,4);
+
+    //!Validates if command id written correctly
+    if(txtFunction == "INTO"){
+
+        //!Extracts text after INTO statement to the rest of the text
+         QStringRef txtFunction(&text, textIndex+6, text.size()-(textIndex+6));
+         textIndex = txtFunction.indexOf(" ");
+         text = txtFunction.toString();
+
+         //!Extracts the name of the tableInserted
+         QStringRef tableNameValidation(&text, 0, textIndex);
+
+         //!VALIDATES IF TABLE NAME PROVIDED IS EQUAL TO TABLE NAME OF THE NoSQL Table of the system
+         qInfo() << "table_name validation: "<< tableNameValidation;
+
+         if(tableNameValidation == "invencibleLibrary"){
+
+             QStringRef txtFunction(&text, textIndex+1, 6);
+
+             //!Validates command VALUES
+             if(txtFunction == "VALUES"){
+
+                 textIndex = text.indexOf("(");
+                 QStringRef txtFunction(&text, textIndex, text.size()-textIndex);
+                 qInfo() <<"text after VALUES : "<< txtFunction;
+                 text = txtFunction.toString(); //SIEMPRE DEBE IR POSTERIOR A LA LLAMADA DE QSTRINGREF
+
+                 //!Extract text for name
+                 textIndex = text.indexOf(" ");
+                 QStringRef name(&text,1,textIndex-2);
+                 qInfo() << "name: " <<name;
+                 QStringRef txtFunction2(&text, textIndex+1, text.size()-textIndex-1);
+                 qInfo() << "text after name: " << txtFunction2;
+                 text = txtFunction2.toString();
+
+                 //!Extract text for author
+                 textIndex = text.indexOf(" ");
+                 QStringRef author(&text,0,textIndex-1);
+                 qInfo() << "author: " <<author;
+                 QStringRef txtFunction3(&text, textIndex+1, text.size()-textIndex-1);
+                 qInfo() << "text after author: " << txtFunction3;
+                 text = txtFunction3.toString();
+
+                 //!Extract text for year
+                 textIndex = text.indexOf(" ");
+                 QStringRef year(&text,0,textIndex-1);
+                 qInfo() << "year: " <<year;
+                 QStringRef txtFunction4(&text, textIndex+1, text.size()-textIndex-1);
+                 qInfo() << "text after year: " << txtFunction4;
+                 text = txtFunction4.toString();
+
+                 //!Extract text for size
+                 textIndex = text.indexOf(" ");
+                 QStringRef size(&text,0,textIndex-1);
+                 qInfo() << "size: " << size;
+                 QStringRef txtFunction5(&text, textIndex+1, text.size()-textIndex-1);
+                 qInfo() << "text after size: " << txtFunction5;
+                 text = txtFunction5.toString();
+
+                 //!Extract text for description
+                 textIndex = text.indexOf(")");
+                 QStringRef description(&text,0,textIndex);
+                 qInfo() << "description: " << description;
+             }
+         }
+    }
 }

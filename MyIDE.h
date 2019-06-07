@@ -31,6 +31,10 @@ public:
 
     void identifyIDEFunction(QString text);
 
+    void sendInsertCommand(QString text, int textIndex);
+
+    void sendSelectCommand(QString text, int textIndex);
+
 private slots:
     void on_pushButton_clicked();
 
