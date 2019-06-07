@@ -158,6 +158,80 @@ void myIDE::identifyIDEFunction(QString text){
         sendDeleteCommand(text, textIndex);
         qInfo() << "--------------------------------------------------------------------------------------";
     }
+
+    else if(txtFunction == "UPDATE"){
+        sendUpdateCommand(text, textIndex);
+        qInfo() << "--------------------------------------------------------------------------------------";
+    }
+}
+
+void myIDE::sendUpdateCommand(QString text, int textIndex){//Test: UPDATE invencibleLibrary SET Year=2019 WHERE ID=3;
+
+    //!Extracts tablename
+    QStringRef txtFunction(&text, textIndex+1, text.size()-(textIndex+1));
+    textIndex = txtFunction.indexOf(" ");
+    text = txtFunction.toString();
+    QStringRef tablenameValidation(&text,0,textIndex);
+    qInfo() <<"Extract tablename: " << tablenameValidation;
+
+    //!Validates if table name provided is correct
+    if (tablenameValidation == "invencibleLibrary"){
+
+        //!Extract SET word
+        QStringRef txtFunction(&text, textIndex+1, 3);
+        qInfo()<<"Extract SET: "<<txtFunction;
+
+        if(txtFunction=="SET"){
+
+            //!Extract column for SET
+            QStringRef txtFunction(&text, textIndex+5, text.size()-(textIndex+5));
+            textIndex = txtFunction.indexOf("=");
+            int textIndex2 = txtFunction.indexOf(" ");
+            text = txtFunction.toString();
+            QStringRef columnNameSetted(&text, 0, textIndex);
+            qInfo()<< "set column: " << columnNameSetted;
+
+            if(columnNameSetted == "ID" || columnNameSetted == "Author" || columnNameSetted == "Year"
+                    || columnNameSetted == "Size" || columnNameSetted == "Description"){
+
+                //!Extracts value updated
+                QStringRef valueSetted(&text,textIndex+1,textIndex2-(textIndex+1));
+                qInfo()<< "Value setted: " << valueSetted;
+
+                //!Extracts WHERE word
+                QStringRef txtFunction(&text, textIndex2+1, 5);
+                qInfo()<< "Extract WHERE: " << txtFunction;
+
+                //!Validates WHERE Word
+                if(txtFunction == "WHERE"){
+
+                    //!Extract column for condition
+                    QStringRef txtFunction(&text,textIndex2+7, text.size()-(textIndex2+7));
+                    textIndex= txtFunction.indexOf("=");
+                    text = txtFunction.toString();
+                    QStringRef columnNameValidation(&text,0,textIndex);
+                    qInfo()<<"Column condition: "<<columnNameValidation;
+
+                    //!Validates if column name is in the table
+                    if(columnNameValidation == "ID" || columnNameValidation == "Author" || columnNameValidation == "Year"
+                            || columnNameValidation == "Size" || columnNameValidation == "Description"){
+
+                        //!Extract value of condition
+                        QStringRef columnNameData(&text,textIndex+1,text.size()-(textIndex+2));
+                        qInfo()<<"value of condition: " << columnNameData;
+                    }else{
+                        qInfo()<<"column name not typed correctly";
+                    }
+                }
+            }else{
+                qInfo()<<"Not recognized column name next to SET command";
+            }
+        }else{
+            qInfo("SET word recieved incorrectly, check spaces");
+        }
+    }else{
+        qInfo()<<"table name provided is incorrect";
+    }
 }
 
 void myIDE::sendDeleteCommand(QString text, int textIndex){ //Test: DELETE FROM invencibleLibrary WHERE ID=3;
@@ -177,7 +251,6 @@ void myIDE::sendDeleteCommand(QString text, int textIndex){ //Test: DELETE FROM 
         textIndex = txtFunction.indexOf(" ");
         text = txtFunction.toString();
         QStringRef tablenameValidation(&text, 0, textIndex);
-
         qInfo() <<"table name: " << tablenameValidation;
 
         if(tablenameValidation == "invencibleLibrary"){
@@ -203,39 +276,30 @@ void myIDE::sendDeleteCommand(QString text, int textIndex){ //Test: DELETE FROM 
                     //!Extract value of condition
                     QStringRef columnNameData(&text,textIndex+1,text.size()-(textIndex+2));
                     qInfo()<<"value of condition: " << columnNameData;
+                }else{
+                    qInfo()<<"column name not typed correctly";
                 }
-                else{
-                    qInfo()<<"value not typed correctly";
-                }
-            }
-            else{
+            }else{
                 qInfo()<<"WHERE word not typed correctly";
             }
-
-        }
-        else{
+        }else{
             qInfo()<<"Table name typed incorrectly.";
         }
-
-    }
-    else{
+    }else{
         qInfo()<< "not typed FROM clause correctly";
     }
-
-
 }
 
 void myIDE::sendSelectCommand(QString text, int textIndex){ //Test: SELECT * FROM invencibleLibrary;
 
     //!Extracts column or (*)
     QStringRef txtFunction(&text, textIndex+1, text.size()-(textIndex+1));
-
-    //!Validates if it will be extratect a column or all columns
     textIndex = txtFunction.indexOf(" ");
     text = txtFunction.toString();
     QStringRef txtFunction2(&text,0,textIndex);
     qInfo() <<"Extract column: " << txtFunction2;
 
+     //!Validates if it will be extratect a column or all columns
     if(txtFunction2 == "*" || txtFunction2 == "ID" || txtFunction2 == "Author"
             || txtFunction2 == "Year" || txtFunction2 == "Size" || txtFunction2 == "Description"){
 
@@ -252,15 +316,11 @@ void myIDE::sendSelectCommand(QString text, int textIndex){ //Test: SELECT * FRO
          //!Verify the name of the table
          if(txtFunction2 == "invencibleLibrary"){
              qInfo() << "command executed sucessfully";
-         }
-
-         else{
+         }else{
              qInfo() << "tablename not excecuted correctly";
          }
-    }
-
-    else {
-        qInfo() << "not recognize column name provided.";
+    }else {
+        qInfo() << "not recognized column name provided.";
     }
 }
 
