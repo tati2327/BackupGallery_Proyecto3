@@ -34,6 +34,7 @@ public class Controller extends JPanel {
     
 
     private void loadImage(Images img) throws IOException {
+    	System.out.print("holangas");
         mainImage = ImageIO.read(new File("garbage/image."+img.getId()+".png"));
         
         width = mainImage.getWidth(null);
@@ -66,18 +67,20 @@ public class Controller extends JPanel {
 			temp1+=1;
 			temp2+=1;
 			if(temp2==5) temp2=1;
+			
 			ImageIO.write(bufferedImage2, "png", new File("Disk"+temp2+"/image."+img.getId()+"."+temp1+".png"));
 			img.setPart2(temp2);
 			temp1+=1;
 			temp2+=1;
 			if(temp2==5) temp2=1;
+			
 			ImageIO.write(bufferedImage3, "png", new File("Disk"+temp2+"/image."+img.getId()+"."+temp1+".png"));
 			img.setPart3(temp2);
 			temp1+=1;
 			temp2+=1;
 			if(temp2==5) temp2=1;
-			////////////////////////////////////////here we need to write the parity//////////////////////////////////////////
-			//img.setPartity(temp2);
+			parity(img,temp1,temp2);
+			img.setPartity(temp2);
 			diskCount+=1;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -119,18 +122,73 @@ public class Controller extends JPanel {
     	byte[] array1=imageToBytes(img,img.getPart1(),1);
     	byte[] array2=imageToBytes(img,img.getPart2(),2);
     	byte[] array3=imageToBytes(img,img.getPart3(),3);
-    	img.setPart1Length(array1.length);
-    	img.setPart2Length(array1.length);
-    	img.setPart3Length(array1.length);
+    	System.out.println(array1.length);
+    	System.out.println(array2.length);
+    	System.out.println(array3.length);
+    	
+    	img.setPart1Length(array1.length-1);
+    	img.setPart2Length(array2.length-1);
+    	img.setPart3Length(array3.length-1);
+    	SimpleList<byte[]> totalArray=new SimpleList();
+    	int a=array1.length-1;
+    	int b=array2.length-1;
+    	int c=array3.length-1;
+    	if(a>b) {
+    		int temp=a;
+    		a=b;
+    		b=temp;
+    	}
+    	if(b>c) {
+    		int temp=b;
+    		b=c;
+    		c=temp;	
+    	}
+    	if(a>b) {
+    		int temp=a;
+    		a=b;
+    		b=temp;
+    	}
+    	
+    	if(a==array1.length-1)totalArray.add(array1);
+    	if(a==array2.length-1)totalArray.add(array2);
+    	if(a==array3.length-1)totalArray.add(array3);
+    	
+    	if(b==array1.length-1)totalArray.add(array1);
+    	if(b==array2.length-1)totalArray.add(array2);
+    	if(b==array3.length-1)totalArray.add(array3);
+    	
+    	if(c==array1.length-1)totalArray.add(array1);
+    	if(c==array2.length-1)totalArray.add(array2);
+    	if(c==array3.length-1)totalArray.add(array3);
+    	System.out.println("ordenada");
+
+    	System.out.println(totalArray.get(0).length);
+    	System.out.println(totalArray.get(1).length);
+    	System.out.println(totalArray.get(2).length);
 	try {
 	    	File file=new File("Disk"+temp2+"/image."+img.getId()+"."+temp1+".txt");
 	    	FileWriter fw=new FileWriter(file);
 	    	BufferedWriter bf =new BufferedWriter(fw);
 	    	PrintWriter pw = new PrintWriter(bf);
 	    	
-	    	//pw.write(b);
-	    	pw.append(",");
-	    	//pw.write()
+	    	for(int i=0; i<=totalArray.get(2).length-1;i++) {
+	    		
+	    		if(i<=totalArray.get(0).length-1) {
+	    			int value= totalArray.get(0)[i]^totalArray.get(1)[i]^totalArray.get(2)[i];
+	    			pw.write(Integer.toString(value));
+	    	    	pw.append(",");
+	    		}
+	    		if (i>totalArray.get(0).length-1 & i <=totalArray.get(1).length-1) {
+	    			int value=totalArray.get(1)[i]^totalArray.get(2)[i];
+	    			pw.write(Integer.toString(value));
+	    	    	pw.append(",");
+	    		}
+	    		if (i>totalArray.get(1).length-1) {
+	    			pw.write(Integer.toString(totalArray.get(2)[i]));
+	    	    	pw.append(",");
+	    		}
+	    	}
+
 	    	pw.close();
 	    	bf.close();
 	    	
@@ -200,33 +258,13 @@ public class Controller extends JPanel {
             x.printStackTrace();
         } 
     }
+    
     public static void main(String[] args) throws IOException {
-    	/*Images img=new Images(5);
+    	Images img=new Images(5);
     	Controller co=new Controller();
     	co.loadImage(img);
-    	co.divideImage(null,img);*/
-    	byte[] array1= {4,20,-8};
-    	byte[] array2= {10,45,3};
+    	co.divideImage(null,img);
     	
-    	try {
-	    	File file=new File("Disk4/holangas.txt");
-	    	FileWriter fw=new FileWriter(file);
-	    	BufferedWriter bf =new BufferedWriter(fw);
-	    	PrintWriter pw = new PrintWriter(bf);
-	    	for(int i=0;i<=2;i++) {
-    		int a=array1[i]^array2[i];
-    		pw.write(Integer.toString(a));
-	    	pw.append(",");
-    	}
-
-	    	pw.close();
-	    	bf.close();
-	    	
-    	}catch ( IOException x ) {
-            // Complain if there was any problem writing 
-            // the output file.
-            x.printStackTrace();
-        } 
     }
 }
 
