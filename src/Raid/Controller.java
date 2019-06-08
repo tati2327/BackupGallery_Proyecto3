@@ -63,24 +63,28 @@ public class Controller extends JPanel {
     	int temp2=diskCount;
     	try {
 			ImageIO.write(bufferedImage, "png", new File("Disk"+temp2+"/image."+img.getId()+"."+temp1+".png"));
-			img.setPart1(temp2);
+			img.setDiskPart1(temp2);
+			img.setIndexPart1(temp1);
 			temp1+=1;
 			temp2+=1;
 			if(temp2==5) temp2=1;
 			
 			ImageIO.write(bufferedImage2, "png", new File("Disk"+temp2+"/image."+img.getId()+"."+temp1+".png"));
-			img.setPart2(temp2);
+			img.setDiskPart2(temp2);
+			img.setIndexPart2(temp1);
 			temp1+=1;
 			temp2+=1;
 			if(temp2==5) temp2=1;
 			
 			ImageIO.write(bufferedImage3, "png", new File("Disk"+temp2+"/image."+img.getId()+"."+temp1+".png"));
-			img.setPart3(temp2);
+			img.setDiskPart3(temp2);
+			img.setIndexPart3(temp1);
 			temp1+=1;
 			temp2+=1;
 			if(temp2==5) temp2=1;
 			parity(img,temp1,temp2);
-			img.setPartity(temp2);
+			img.setDiskParity(temp2);
+			img.setIndexParity(temp1);
 			diskCount+=1;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -88,8 +92,8 @@ public class Controller extends JPanel {
          	
     }
     
-    public byte[] imageToBytes(Images img, int diskNumber, int imagePart) throws IOException {
-		File file = new File("Disk"+diskNumber+"/image."+img.getId()+"."+imagePart+".png");
+    public byte[] imageToBytes(Images img, int diskNumber, int partIndex) throws IOException {
+		File file = new File("Disk"+diskNumber+"/image."+img.getId()+"."+partIndex+".png");
         BufferedImage originalImage = ImageIO.read(file);
         ByteArrayOutputStream baos=new ByteArrayOutputStream();
         ImageIO.write(originalImage, "png", baos);
@@ -105,9 +109,30 @@ public class Controller extends JPanel {
 		
 		ByteArrayInputStream bis = new ByteArrayInputStream(imageInByte);
 		BufferedImage bufferImage = ImageIO.read(bis);
-		//ImageIO.write(bufferImage, "png", new File("CortarImagen/image"+id+"."+ subIndex+".png") );
+		ImageIO.write(bufferImage, "png", new File("Disk4/perroViejo.png") );
         System.out.println("images saved");
 	}
+    public byte[] convertTxtToByte(Images img) {
+    	byte[] parityArray=new byte[122783];
+    	try {
+	    	File file=new File("Disk"+img.getDiskParity()+"/image."+img.getId()+"."+img.getIndexParity()+".txt");
+	    	FileReader fr=new FileReader(file);
+	    	BufferedReader br =new BufferedReader(fr);
+	    	String line;
+	    	int i=0;
+	    	while((line=br.readLine())!=null){
+	    		parityArray[i]=(byte) Integer.parseInt(line);
+	    		i++;
+	    	}
+	    	 br.close();
+	    	 fr.close();
+	    	}catch ( IOException x ) {
+	            // Complain if there was any problem writing 
+	            // the output file.
+	            x.printStackTrace();
+	        } 
+    	return parityArray;
+    }
     
     public void saveIncomingImage(byte[] imageInByte) throws IOException {
 		
@@ -118,10 +143,22 @@ public class Controller extends JPanel {
 		ImageIO.write(bufferImage, "png", new File("garbage/image."+img.getId()+".png") );
         System.out.println("images saved");
 	}
-  public void parity(Images img,int temp1, int temp2) throws IOException {
-    	byte[] array1=imageToBytes(img,img.getPart1(),1);
-    	byte[] array2=imageToBytes(img,img.getPart2(),2);
-    	byte[] array3=imageToBytes(img,img.getPart3(),3);
+    
+    public byte[] XOR( Images img) throws IOException {
+    	byte[] array2=imageToBytes(img,img.getDiskPart2(),2);
+    	byte[] array3=imageToBytes(img,img.getDiskPart3(),3);
+    	byte[] parityArray=convertTxtToByte(img);
+    	byte[] arrayToRestore=new byte[img.getPart1Length()];
+    	for(int i=0; i<=img.getPart1Length()-1;i++) {
+    		int value=array2[i]^array3[i]^parityArray[i];
+    		arrayToRestore[i]=(byte) value;
+    	}
+    	return arrayToRestore;
+    }
+    public void parity(Images img,int temp1, int temp2) throws IOException {
+    	byte[] array1=imageToBytes(img,img.getDiskPart1(),1);
+    	byte[] array2=imageToBytes(img,img.getDiskPart2(),2);
+    	byte[] array3=imageToBytes(img,img.getDiskPart3(),3);
     	System.out.println(array1.length);
     	System.out.println(array2.length);
     	System.out.println(array3.length);
@@ -175,17 +212,14 @@ public class Controller extends JPanel {
 	    		
 	    		if(i<=totalArray.get(0).length-1) {
 	    			int value= totalArray.get(0)[i]^totalArray.get(1)[i]^totalArray.get(2)[i];
-	    			pw.write(Integer.toString(value));
-	    	    	pw.append(",");
-	    		}
+	    			pw.write(Integer.toString(value)+"\n");
+	    	    		    		}
 	    		if (i>totalArray.get(0).length-1 & i <=totalArray.get(1).length-1) {
 	    			int value=totalArray.get(1)[i]^totalArray.get(2)[i];
-	    			pw.write(Integer.toString(value));
-	    	    	pw.append(",");
+	    			pw.write(Integer.toString(value)+"\n");
 	    		}
 	    		if (i>totalArray.get(1).length-1) {
-	    			pw.write(Integer.toString(totalArray.get(2)[i]));
-	    	    	pw.append(",");
+	    			pw.write(Integer.toString(totalArray.get(2)[i])+"\n");
 	    		}
 	    	}
 
@@ -264,6 +298,7 @@ public class Controller extends JPanel {
     	Controller co=new Controller();
     	co.loadImage(img);
     	co.divideImage(null,img);
+    	co.saveSubImage(co.XOR(img));
     	
     }
 }
