@@ -13,7 +13,15 @@ public class Images {
 	private int part1Length;
 	private int part2Length;
 	private int part3Length;
-
+	private int parityLength;
+	
+	public Images(int id) {
+		this.id = id;
+	}
+	public Images() {
+	}
+	
+	///////////////////////////////////////////Getters and Setters////////////////////////////////////////////////////////////////
 	public int getIndexPart1() {
 		return indexPart1;
 	}
@@ -56,9 +64,7 @@ public class Images {
 	public void setPart3Length(int part3Length) {
 		this.part3Length = part3Length;
 	}
-	public Images(int id) {
-		this.id = id;
-	}
+
 	public int getId() {
 		return id;
 	}
@@ -89,7 +95,13 @@ public class Images {
 	public void setDiskParity(int diskParity) {
 		this.diskParity = diskParity;
 	}
-
+	public int getParityLength() {
+		return parityLength;
+	}
+	public void setParityLength(int parityLength) {
+		this.parityLength = parityLength;
+	}
+	
 	
 	
 

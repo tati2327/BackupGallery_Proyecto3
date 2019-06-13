@@ -5,7 +5,8 @@
 	<classpathentry kind="src" path="Disk2"/>
 	<classpathentry kind="src" path="Disk3"/>
 	<classpathentry kind="src" path="Disk4"/>
-	<classpathentry kind="src" path="garbage"/>
+	<classpathentry kind="src" path="Incoming_Garbage"/>
+	<classpathentry kind="src" path="RestoreProcess"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>
