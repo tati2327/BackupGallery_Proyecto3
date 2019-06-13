@@ -18,30 +18,28 @@ public class dataBaseManager {
 		switch (request) {
 		case 7: //Confirmacion del UPDATE
 			myManageConections.sendMessage("client", message);
-		case 3: //ID de la imagen
-			myManageConections.sendMessage("raid", message);
-		case 4: //DELETE
-			myManageConections.sendMessage("dataBase", message);
-		case 5: //INSERT
+			break;
+		case 8: //ID de la imagen para el raid
 			JSONParser parser = new JSONParser();
 			JSONObject myJsonTemp;
-			String name ="", author="", description="";
-			int year=0, size=0;
-
+			int id=0;
+			
 			try {
 				myJsonTemp = (JSONObject) parser.parse(message);
-				name = (String) myJsonTemp.get("name");
-				author = (String) myJsonTemp.get("author");
-				description = (String) myJsonTemp.get("description");
-				year = (int) myJsonTemp.get("year");
-				size = (int) myJsonTemp.get("size");
-
+				id = (int) myJsonTemp.get("id");
+				
+				myManageConections.sendMessage("raid", myJson.serializeInsertImgRaid(myManageConections.getImage(), id));
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			myManageConections.sendMessage("dataBase", 
-					myJson.serializeInsertDB(name, author, year, size, description));
+			break;
+		case 14: //DELETE 
+			myManageConections.sendMessage("raid", message);
+			break;
+		case 9: //Send metadata
+			myManageConections.sendMessage("client", message);
+			break;
 		default:
 			break;
 		}		

@@ -34,13 +34,13 @@ public class clientManager {
 				description = (String) myJsonTemp.get("description");
 				year = (int) myJsonTemp.get("year");
 				size = (int) myJsonTemp.get("size");
-
+				
+				myManageConections.saveImages((byte[]) myJsonTemp.get("image"));
+				myManageConections.sendMessage("dataBase", myJson.serializeInsertDB(name, author, year, size, description));
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			myManageConections.sendMessage("dataBase", 
-					myJson.serializeInsertDB(name, author, year, size, description));
 		default:
 			break;
 		}		

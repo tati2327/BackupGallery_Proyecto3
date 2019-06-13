@@ -10,6 +10,7 @@ import com.structures.SimpleList;
 public class ManageConections {
 
 	SimpleList<ManageClients> myClients =  new SimpleList<ManageClients>();
+	byte[] image;
 	
 	public void sendMessage(String name, String message) {
 		int client = 0;
@@ -29,5 +30,13 @@ public class ManageConections {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void saveImages(byte[] image) {
+		this.image = image;
+	}
+
+	public byte[] getImage() {
+		return image;
 	}
 }
