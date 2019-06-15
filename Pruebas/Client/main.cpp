@@ -5,7 +5,12 @@ int main() {
     Client c;
 
     c.conn();
-    c.send_data("Test Class C++ Client \n");
-
+    int i =0;
+    string message;
+    while(i<20) {
+        cin>>message;
+        c.send_data(message);
+        i++;
+    }
     return 0;
 }

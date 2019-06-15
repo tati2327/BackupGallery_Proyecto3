@@ -10,7 +10,7 @@ import com.structures.SimpleList;
 
 public class Server {
 	
-	static final int PUERTO = 4444; //Numero de puerto
+	static final int PUERTO = 54000; //Numero de puerto
 	ManageConections myConections = new ManageConections();
 	
 	public void multiclient() {
@@ -23,21 +23,23 @@ public class Server {
 			
 			//ciclo donde el servidor comienza a escuchar peticiones 
 			while(true) {
+				System.out.println("Servidor Escuchando");
 				client = server.accept();
+				
+				System.out.println("Cliente conectado de forma exitosa");
 				
 				DataInputStream in_temp = new DataInputStream(client.getInputStream());
 				DataOutputStream out_temp = new DataOutputStream(client.getOutputStream());
 				
-				ManageClients newClient = new ManageClients(client, in_temp, out_temp);
-				newClient.start();
-				
+				ManageClient newClient = new ManageClient(client, in_temp, out_temp);
+				newClient.run();
 				myConections.myClients.add(newClient);
 				
 				//Solo para ver los clientes conectados
-				System.out.println("Clientes conectados: ");
+				/*System.out.println("Clientes conectados: ");
 				for(int i=0; i < myConections.myClients.size(); i++) {
 					System.out.println(myConections.myClients.get(i).name);
-				}
+				}*/
 			}
 		}catch (Exception e) {
 			e.printStackTrace();

@@ -17,6 +17,7 @@ class Client {
         Client();
         bool conn();
         bool send_data(string data);
+        string readMessage();
         // string receive(int);
 
 };

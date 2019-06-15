@@ -9,7 +9,7 @@ import com.structures.SimpleList;
  */
 public class ManageConections {
 
-	SimpleList<ManageClients> myClients =  new SimpleList<ManageClients>();
+	SimpleList<ManageClient> myClients =  new SimpleList<ManageClient>();
 	byte[] image;
 	
 	public void sendMessage(String name, String message) {

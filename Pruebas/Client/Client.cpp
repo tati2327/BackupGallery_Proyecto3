@@ -15,8 +15,8 @@ using namespace std;
 Client::Client()
 {
     sock = -1;
-    port = 4444;
-    address = "127.0.0.1";
+    port = 54000;
+    address = "192.168.100.14 ";
 }
 
 /**
@@ -58,6 +58,15 @@ bool Client::send_data(string data)
         perror("Send failed : ");
         return false;
     }
-    cout<<"Data send\n  "<<sock;
+    cout<<"Mensaje enviado del cliente #"<<sock<<endl;
     return true;
+}
+
+string Client::readMessage(){
+    char buf[4096];
+    string messageReived;
+    cout<<"Voy a comenzar a recibir el mensaje..."<<endl;
+    int bytesReceived = static_cast<int>(recv(sock, buf, 4096, 0));
+    messageReived = string(buf, static_cast<unsigned long>(bytesReceived));
+    return messageReived;
 }

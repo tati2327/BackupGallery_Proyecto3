@@ -12,6 +12,7 @@ public class dataBaseManager {
 	ServerJson myJson = new ServerJson();
 	ManageConections myManageConections = new ManageConections();
 	
+	//Mensajes que recibe 
 	public void readMessage(String message) {
 		int request = myJson.getRequest(message);
 		
