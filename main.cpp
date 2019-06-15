@@ -1,6 +1,6 @@
 #include "MyIDE.h"
 #include <QApplication>
-#include "List.h"
+
 
 int main(int argc, char *argv[])
 {

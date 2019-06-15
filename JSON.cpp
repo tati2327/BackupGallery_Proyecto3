@@ -27,7 +27,7 @@ string JSON::serializeInsertMsg(int id, string name, string author, int year, in
     Value descriptionString(description.c_str(), allocator);
     document.AddMember("request",1, allocator);
     document.AddMember("id", id, allocator);
-    document.AddMember("age", nameString, allocator);
+    document.AddMember("name", nameString, allocator);
     document.AddMember("author", authorString, allocator);
     document.AddMember("year", year, allocator);
     document.AddMember("size", size, allocator);
@@ -49,7 +49,7 @@ string JSON::serializeDeleteMsg(string deleteMsg){
 
     Value deleteString(deleteMsg.c_str(), allocator);
     document.AddMember("request", 4, allocator);
-    document.AddMember("deleteMsg", deleteString, allocator);
+    document.AddMember("delete", deleteString, allocator);
 
     StringBuffer strbuf;
     Writer<StringBuffer> writer(strbuf);

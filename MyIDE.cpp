@@ -3,6 +3,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDebug>
+#include <QBuffer>
+
 
 myIDE::myIDE(QWidget *parent) :QMainWindow(parent), ui(new Ui::myIDE)
 {
@@ -15,11 +17,28 @@ myIDE::myIDE(QWidget *parent) :QMainWindow(parent), ui(new Ui::myIDE)
     ui->tableMetadata->setColumnCount(8);
     ui->tableMetadata->setHorizontalHeaderLabels(titles);
 
-    QPixmap pix("/home/tati2327/Documentos/Github/Proyecto3/BackupGallery_Proyecto3/BackupGalleryInterface/backupGallery/Resources/imageDefault.jpg");
-    ui->lblPicture->setPixmap(pix);
+   QPixmap pix("/home/tati2327/Documentos/Github/Proyecto3/BackupGallery_Proyecto3/BackupGalleryInterface/backupGallery/Resources/imageDefault.jpg");
+   ui->lblPicture->setPixmap(pix);
 
     //myClient.newClient("192.168.100.9", 54000);
     //manageClient();
+
+    //open file
+    //std::ifstream infile("C:\\MyFile.csv");
+
+    //get length of file
+    //infile.seekg(0, infile.end);
+    //size_t length = infile.tellg();
+    //infile.seekg(0, infile.beg);
+
+    // don't overflow the buffer!
+    //if (length > sizeof (buffer))
+    //{
+    //    length = sizeof (buffer);
+    //}
+
+    //read file
+    //infile.read(buffer, length);
 }
 
 myIDE::~myIDE()
@@ -111,9 +130,125 @@ void myIDE::on_pushButton_2_clicked()
                 this, tr("Open Images"), "C://",
                 "All files(*.*)");
     if(!filename.isEmpty()){
-        QImage image(filename);
-        ui->lblPicture->setPixmap(QPixmap::fromImage(image));
+        //QImage image(filename);
+        //ui->lblPicture->setPixmap(QPixmap::fromImage(image));
         qDebug()<<filename;
+
+
+
+
+
+        //Bioland (leche, pinito, miel, (comer antes de entrenar y despues, batido))
+
+
+
+
+
+        //METODO 2
+        //open file
+        std::ifstream infile(filename.toStdString());
+
+        //get length of file
+        infile.seekg(0, infile.end);
+        size_t length = infile.tellg();
+        infile.seekg(0, infile.beg);
+        char buffer[length];
+
+        // don't overflow the buffer!
+        if (length > sizeof (buffer))
+        {
+            length = sizeof (buffer);
+        }
+        //read file
+        infile.read(buffer, length);
+
+
+        //qDebug() << "/pos0 :"<< QByteArray::fromRawData(buffer,length);
+        QList<int> byteList;
+
+        for(int i=0; i< length; i++){
+            byteList.append(int(buffer[i]));
+        }
+
+        for(int i =0; i<byteList.size(); i++){
+            qDebug()<<byteList.at(i);
+        }
+
+
+        uchar buffer2[length];
+        for(int i=0; i< length; i++){
+            buffer2[i]=buffer[i];
+        }
+
+
+
+         int i, j;
+         char *image;
+         std::ofstream ofp("/home/fabian/CLionProjects/BackupGallery_Proyecto3/Resources/Image7.png", std::ofstream::binary);
+
+         char buffer4[length];
+
+
+
+         // convert the integer values to unsigned char
+
+         for(j=0; j<length; j++){
+             buffer4[j]=(unsigned char)byteList.at(j);
+         }
+
+         //ofp.open("/home/fabian/CLionProjects/BackupGallery_Proyecto3/Resources/Image.png", ios::out);
+
+         if (!ofp) {
+           cout << "Can't open file:" << endl;
+           exit(1);
+         }
+
+         ofp.write(buffer4, length);
+
+         if (ofp.fail()){
+           cout << "Can't write image " << endl;
+           exit(0);
+         }
+
+         infile.close();
+         ofp.close();
+
+
+        QImage imagen ("/home/fabian/CLionProjects/BackupGallery_Proyecto3/Resources/Image7.png");
+
+        ui->lblPicture->setPixmap(QPixmap::fromImage(imagen));
+        /*
+
+        QByteArray arr;
+        QBuffer buffer2(&arr);
+        buffer2.open(QIODevice::WriteOnly);
+        image.save(&buffer2, "PNG ");
+
+        //METODO 3
+        //qDebug()<< QByteArray::fromRawData((const char*)image.bits(), image.byteCount());
+        //qDebug()<<arr2.data();
+
+        //METODO # 3
+        ifstream fl("/home/fabian/CLionProjects/BackupGallery_Proyecto3/Resources/Image.png");
+        fl.seekg( 0, ios::end );
+        size_t len = fl.tellg();
+        char *ret = new char[len];
+        fl.seekg(0, ios::beg);
+        fl.read(ret, len);
+        fl.close();
+
+        //METODO #4
+        ifstream ifs("/home/fabian/CLionProjects/BackupGallery_Proyecto3/Resources/Image.png");
+        ostringstream oss;
+
+
+        int len2;
+        char buf[1024];
+        while ((len2 = ifs.readsome(buf,1024)) > 0){
+
+            oss.write(buf,len2);
+        }
+        string data = oss.str(); */
     }
 }
 

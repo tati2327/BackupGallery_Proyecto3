@@ -13,8 +13,10 @@
 #include <string.h>
 #include <string>
 #include "JSON.h"
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <fstream>
+#include <sstream>
 
 namespace Ui {
 
