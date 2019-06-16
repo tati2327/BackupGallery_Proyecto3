@@ -1,4 +1,4 @@
-package com;
+package com.structures;
 
 /**
  * Un nodo es un objeto independiente y dinámico. Debe poseer al menos dos atributos:

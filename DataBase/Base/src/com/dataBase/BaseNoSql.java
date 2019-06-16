@@ -1,4 +1,4 @@
-package com;
+package com.dataBase;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,10 +9,10 @@ import java.util.Scanner;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import com.HuffmanNode;
-import com.Huffman;
-import com.MyComparator;
-import com.SimpleList;
+import com.dataBase.Huffman;
+import com.dataBase.HuffmanNode;
+import com.dataBase.MyComparator;
+import com.structures.SimpleList;
 
 /*
  * Base no SQL

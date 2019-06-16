@@ -1,6 +1,6 @@
-package com;
+package com.structures;
 
-import com.Node;
+import com.structures.Node;
 /** 
  * <h1>SimpleList.</h1>
  * Implementación de una lista enlazada. Implemeta varias operaciones de las listas y permite 

@@ -1,4 +1,4 @@
-package com;
+package com.dataBase;
 
 /*
  * Hojas del arbol para hacer la compresion de los datos
