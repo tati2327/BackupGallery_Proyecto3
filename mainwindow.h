@@ -1,17 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include <QDialog>
+#include "MyIDE.h"
 
 namespace Ui {
 class MainWindow;
 }
 
-
-/*!
- * \brief The MainWindow class
- */
-class MainWindow : public QMainWindow
+class MainWindow : public QDialog
 {
     Q_OBJECT
 
@@ -20,15 +17,13 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_enterButton_clicked();
+    void on_pushButton_clicked();
 
-    //!Delete fuction: to clear what its in myIDE Editor
-    void on_deleteButton_clicked();
-
-    void identifyIDEFunction(QString text);
+    void on_pushButton_2_clicked();
 
 private:
     Ui::MainWindow *ui;
+    myIDE x;
 };
 
 #endif // MAINWINDOW_H

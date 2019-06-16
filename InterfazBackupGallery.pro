@@ -30,7 +30,8 @@ SOURCES += \
         JSON.cpp \
         MyIDE.cpp \
         ReadData.cpp \
-        main.cpp
+        main.cpp \
+    mainwindow.cpp
 
 HEADERS += \
         test.h \
@@ -42,10 +43,12 @@ HEADERS += \
         Node.h \
         Node_def.h \
         ReadData.h \
+    mainwindow.h
 
 
 FORMS += \
-        myide.ui
+        myide.ui \
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
