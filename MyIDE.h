@@ -96,6 +96,7 @@ private slots:
 
     void on_deleteButton_clicked();
 
+
 private:
     Ui::myIDE *ui;
     Client myClient;
@@ -108,6 +109,10 @@ private:
     void manageClient();
     
     void readJSON(QString message);
+
+    QList<int> imageToByteQList(QString filename);
+
+    void byteQListToImage(QList<int> byteList);
     
     enum column{
         ID, NAME, AUTHOR, YEAR, SIZE, DESCRIPTION, OPEN, DELETE
