@@ -1,4 +1,4 @@
-package Raid;
+package com.raid;
 
 import java.io.IOException;
 

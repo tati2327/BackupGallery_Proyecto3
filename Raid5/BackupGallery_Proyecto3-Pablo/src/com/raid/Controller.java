@@ -1,9 +1,11 @@
-package Raid;
+package com.raid;
 
-import Structures.*;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.JPanel;
+
+import com.structures.*;
+
 import java.awt.image.BufferedImage;
 import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;

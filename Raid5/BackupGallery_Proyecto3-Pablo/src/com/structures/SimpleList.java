@@ -1,4 +1,4 @@
-package Structures;
+package com.structures;
 
 /** 
  * <h1>SimpleList.</h1>
