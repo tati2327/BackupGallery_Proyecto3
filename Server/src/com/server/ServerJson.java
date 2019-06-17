@@ -10,6 +10,21 @@ import org.json.simple.parser.ParseException;
 public class ServerJson {
 	
 	/*----------------------------JSONS para el raid----------------------*/
+	
+	/**
+	 * Serializa la confirmación de si se reliazó o no el comando de UPDATE
+	 * @param solution
+	 * @return string en formato JSON
+	 */
+	public String serializeConfirmation(boolean solution) {
+		JSONObject myJson = new JSONObject();
+
+		myJson.put("request", 14);
+		myJson.put("confirmation", solution);
+
+		return myJson.toJSONString();
+	}
+	
 	public String serializeInsertImgRaid(byte[] image, int id) {
 		JSONObject myJson = new JSONObject();
 		JSONArray myImage = new JSONArray();

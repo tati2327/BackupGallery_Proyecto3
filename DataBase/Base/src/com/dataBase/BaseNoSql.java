@@ -53,7 +53,6 @@ public class BaseNoSql {
 		Base.add(newPic);
 		ID=ID+1;
 		return;
-
 	}
 
 	/*
@@ -63,13 +62,15 @@ public class BaseNoSql {
 	 * la informacion de cada imagen
 	 * @param newData - Dato que sera escrito sobre el anterior
 	 */
-	public void modifyData(int ID, int pos,String newData) {
+	public boolean modifyData(int pos1, String compare, int pos, String newData) {
+		boolean flag=false;
 		for (int i=0;i<Base.size();i++) {
-			if(Base.get(i).get(0).equals(String.valueOf(ID))) {
+			if(Base.get(i).get(pos1).equals(String.valueOf(compare))) {
 				Base.get(i).set(newData, pos);
-				System.out.println("Changed succesfully");
-			}	
+				flag =true;
+			}
 		}
+		return flag;
 	}
 
 	/*
@@ -80,6 +81,15 @@ public class BaseNoSql {
 		String toDelete = String.valueOf(ID);
 		for(int i=0;i<Base.size();i++) {
 			if (toDelete.equals(Base.get(i).get(0))) {
+				Base.remove(i);
+				break;
+			}
+		}
+	}
+	
+	public void deleteImagebyCondition(int dataposition, String comparedata) {
+		for(int i=0;i<Base.size();i++) {
+			if (comparedata.equals(Base.get(i).get(dataposition))) {
 				Base.remove(i);
 				break;
 			}
@@ -119,24 +129,35 @@ public class BaseNoSql {
 	 * 
 	 */
 	@SuppressWarnings("null")
-	public SimpleList<SimpleList> selectBy(int request, int retur,String thing){
+	public SimpleList<SimpleList> selectBy(int request){
 		SimpleList<SimpleList> last= new SimpleList<SimpleList>();
 
 		for (int i=0;i<Base.size();i++) {
 
-			if (thing.equals(Base.get(i).get(request))) {
 				SimpleList<String> tmp = new SimpleList<String>();
 				tmp.add((String) Base.get(i).get(0));
-				tmp.add((String)Base.get(i).get(retur));
+				tmp.add((String)Base.get(i).get(request));
 				last.add(tmp);
 
 			}
-			else {
-
-			}
-
-		}
 		return last;
+
+	}
+	
+	@SuppressWarnings("unlikely-arg-type")
+	public SimpleList<String> selectID(int ID){
+		SimpleList<String> tmp = new SimpleList<String>();
+		for (int i=0;i<Base.size();i++) {
+				if(Base.get(i).get(0).equals(Integer.toString(ID))) {
+					
+					for (int j=0;j<Base.get(i).size();j++) {
+						tmp.add((String)Base.get(i).get(j));
+						
+					}
+				}
+				
+			}
+		return tmp;
 
 	}
 
@@ -247,7 +268,7 @@ public class BaseNoSql {
 	 * @param str - string que se compresiona
 	 * @return string resultante de la compresion
 	 */
-	public String storeCodes(SimpleList Table, String str){ 
+	public String storeCodes(SimpleList<String> Table, String str){ 
 		String Coding = "";
 		//System.out.println("Size is "+str.length());
 		for (int i=0; i<str.length();i++) {
@@ -292,4 +313,4 @@ public class BaseNoSql {
 		}
 		return obj.toJSONString();
 	}
-}5
+}

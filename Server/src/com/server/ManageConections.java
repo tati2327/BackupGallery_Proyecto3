@@ -9,9 +9,18 @@ import com.structures.SimpleList;
  */
 public class ManageConections {
 
-	SimpleList<ManageClient> myClients =  new SimpleList<ManageClient>();
-	byte[] image;
+	static SimpleList<ManageClient> myClients =  new SimpleList<ManageClient>();
+	static byte[] image;
+	static boolean doubleConfirmation=false;
 	
+	public boolean isDoubleConfirmation() {
+		return doubleConfirmation;
+	}
+
+	public void setDoubleConfirmation(boolean doubleConfirmation) {
+		this.doubleConfirmation = doubleConfirmation;
+	}
+
 	public void sendMessage(String name, String message) {
 		int client = 0;
 		

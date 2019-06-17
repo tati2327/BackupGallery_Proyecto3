@@ -23,14 +23,17 @@ public class Server {
 			
 			//ciclo donde el servidor comienza a escuchar peticiones 
 			while(true) {
-				System.out.println("Servidor Escuchando");
+				//El servidor escuha nuevas conexiones
+				System.out.println("SERVER: Escuchando nuevas conexiones");
 				client = server.accept();
 				
-				System.out.println("Cliente conectado de forma exitosa");
+				//Cuando se conecta un cliente crea los objetos para enviar y recibir mensajes
+				System.out.println("SERVER: Cliente conectado de forma exitosa");
 				
 				DataInputStream in_temp = new DataInputStream(client.getInputStream());
 				DataOutputStream out_temp = new DataOutputStream(client.getOutputStream());
 				
+				//Se le agrega al cliente un administrador 
 				ManageClient newClient = new ManageClient(client, in_temp, out_temp);
 				newClient.run();
 				myConections.myClients.add(newClient);

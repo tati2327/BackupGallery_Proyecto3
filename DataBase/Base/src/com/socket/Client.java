@@ -11,11 +11,14 @@ public class Client {
 	static final String HOST = "127.0.0.1";
 	static final int PUERTO = 54000;
 	Socket mySocket;
+	ManageMessages myManage;
+	ClientJson myJson =  new ClientJson();
 	
 	DataInputStream in;
 	DataOutputStream out;
-	String message;
-	Boolean init = false;
+	Boolean init = true;
+	
+	String message, toSend;
 	
 	public void newClient() {
 		try {
@@ -25,21 +28,14 @@ public class Client {
 			out = new DataOutputStream(socket.getOutputStream()); //Enviar mensaje
 			
 			while(true) {
-				
-				
-				/*if(!init) {
-					out.writeUTF("Nombre"); //Primero manda en nombre para identificarlo
+				if(init) {
+					out.writeUTF(myJson.serializeName("dataBase"));
+					init = false;
 				}
-				if(message == "exit") {
-					socket.close();
-				}*/
 				
-				//Funciones que lean lo que llega del servidor
-				
-				
-				out.writeUTF("Me he conectado zorro"); 
-				System.out.println(in.readUTF());
-
+				message = in.readUTF();
+				toSend = myManage.readMessage(message);
+				out.writeUTF(toSend);
 			}	
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block

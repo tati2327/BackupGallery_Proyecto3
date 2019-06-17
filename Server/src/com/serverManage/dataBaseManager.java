@@ -17,10 +17,10 @@ public class dataBaseManager {
 		int request = myJson.getRequest(message);
 		
 		switch (request) {
-		case 7: //Confirmacion del UPDATE
+		case 10: //CONFIRMATION
 			myManageConections.sendMessage("client", message);
 			break;
-		case 8: //ID de la imagen para el raid
+		case 11: //ID de la imagen (Para el RAID)
 			JSONParser parser = new JSONParser();
 			JSONObject myJsonTemp;
 			int id=0;
@@ -35,11 +35,11 @@ public class dataBaseManager {
 				e.printStackTrace();
 			}
 			break;
-		case 14: //DELETE 
-			myManageConections.sendMessage("raid", message);
-			break;
-		case 9: //Send metadata
+		case 12: //SEND METADA 
 			myManageConections.sendMessage("client", message);
+			break;
+		case 13: //DELETE
+			myManageConections.sendMessage("raid", message);
 			break;
 		default:
 			break;

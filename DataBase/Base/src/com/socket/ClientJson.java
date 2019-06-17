@@ -1,23 +1,40 @@
 package com.socket;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.structures.SimpleList;
+
 public class ClientJson {
 
-	/*---------------------------- SERIALIZAR ----------------------*/
+	/*------------------------------------ SERIALIZAR -----------------------------*/
 
 	/**
 	 * Serializa la confirmación de si se reliazó o no el comando de UPDATE
 	 * @param solution
 	 * @return string en formato JSON
 	 */
-	public String serializeConfirmationUṕdate(boolean solution) {
+	public String serializeConfirmation(boolean solution) {
 		JSONObject myJson = new JSONObject();
 
-		myJson.put("request", 7);
-		myJson.put("solution", solution);
+		myJson.put("request", 10);
+		myJson.put("confirmation", solution);
+
+		return myJson.toJSONString();
+	}
+	
+	/**
+	 * 
+	 * @param name - Nombre del cliente
+	 * @return
+	 */
+	public String serializeName(String name) {
+		JSONObject myJson = new JSONObject();
+
+		myJson.put("request", 1);
+		myJson.put("name", name);
 
 		return myJson.toJSONString();
 	}
@@ -31,7 +48,7 @@ public class ClientJson {
 	public String serializeSendIdImg(int id) {
 		JSONObject myJson = new JSONObject();
 
-		myJson.put("request", 8);
+		myJson.put("request", 11);
 		myJson.put("id", id);
 
 		return myJson.toJSONString();
@@ -43,25 +60,29 @@ public class ClientJson {
 	 * @param id
 	 * @return string en formato JSON
 	 */
-	public String serializeDeleteImg(int id) {
+	public String serializeDeleteImg(int[] id) {
 		JSONObject myJson = new JSONObject();
-
-		myJson.put("request", 14);
-		myJson.put("delete", id);
+		JSONArray myArray = new JSONArray();
+				
+		for(int i=0; i<id.length; i++) {
+			myArray.add(id[i]);
+		}
+		
+		myJson.put("request", 13);
+		myJson.put("idList", myArray);
 
 		return myJson.toJSONString();
 	}
 
-	/*----------------------------JSONS para la base de datos----------------------*/
-	public String serializeInsertDB(String name, String author, int year, int size, String description) {
+	public String serializeMetadata(SimpleList<SimpleList> base) {
 		JSONObject myJson = new JSONObject();
 
-		myJson.put("request", 13);
+		/*myJson.put("request", 13);
 		myJson.put("name", name);
 		myJson.put("author", author);
 		myJson.put("year", year);
 		myJson.put("size", size);
-		myJson.put("description", description);
+		myJson.put("description", description);*/
 
 		return myJson.toJSONString();
 	}
@@ -101,140 +122,140 @@ public class ClientJson {
 		return request;
 	}
 	
-	public int getAuthor(String objet) {
+	public String getAuthor(String objet) {
 
 		JSONParser parser = new JSONParser();
 		JSONObject myJson;
-		int request = 0;
+		String author = "";
 
 		try {
 			myJson = (JSONObject) parser.parse(objet);
-			request = (int) myJson.get("author");
+			author = (String) myJson.get("author");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return request;
+		return author;
 	}
 	
 	public int getYear(String objet) {
 
 		JSONParser parser = new JSONParser();
 		JSONObject myJson;
-		int request = 0;
+		int year = 0;
 
 		try {
 			myJson = (JSONObject) parser.parse(objet);
-			request = (int) myJson.get("year");
+			year = (int) myJson.get("year");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return request;
+		return year;
 	}
 	
 	public int getSize(String objet) {
 
 		JSONParser parser = new JSONParser();
 		JSONObject myJson;
-		int request = 0;
+		int size = 0;
 
 		try {
 			myJson = (JSONObject) parser.parse(objet);
-			request = (int) myJson.get("size");
+			size = (int) myJson.get("size");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return request;
+		return size;
 	}
 	
-	public int getDescription(String objet) {
+	public String getDescription(String objet) {
 
 		JSONParser parser = new JSONParser();
 		JSONObject myJson;
-		int request = 0;
+		String description = "";
 
 		try {
 			myJson = (JSONObject) parser.parse(objet);
-			request = (int) myJson.get("description");
+			description = (String) myJson.get("description");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return request;
+		return description;
 	}
 	
-	public int getColumnName(String objet) {
+	public String getColumnName(String objet) {
 
 		JSONParser parser = new JSONParser();
 		JSONObject myJson;
-		int request = 0;
+		String columnName = "";
 
 		try {
 			myJson = (JSONObject) parser.parse(objet);
-			request = (int) myJson.get("columnName");
+			columnName = (String) myJson.get("columnName");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return request;
+		return columnName;
 	}
 	
-	public int getValue(String objet) {
+	public String getValue(String objet) {
 
 		JSONParser parser = new JSONParser();
 		JSONObject myJson;
-		int request = 0;
+		String value = "";
 
 		try {
 			myJson = (JSONObject) parser.parse(objet);
-			request = (int) myJson.get("value");
+			value = (String) myJson.get("value");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return request;
+		return value;
 	}
 	
-	public int getCondition(String objet) {
+	public String getCondition(String objet) {
 
 		JSONParser parser = new JSONParser();
 		JSONObject myJson;
-		int request = 0;
+		String condition = "";
 
 		try {
 			myJson = (JSONObject) parser.parse(objet);
-			request = (int) myJson.get("condition");
+			condition = (String) myJson.get("condition");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return request;
+		return condition;
 	}
 	
 	public int getId(String objet) {
 
 		JSONParser parser = new JSONParser();
 		JSONObject myJson;
-		int request = 0;
+		int id = 0;
 
 		try {
 			myJson = (JSONObject) parser.parse(objet);
-			request = (int) myJson.get("id");
+			id = (int) myJson.get("id");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return request;
+		return id;
 	}
 }
 
