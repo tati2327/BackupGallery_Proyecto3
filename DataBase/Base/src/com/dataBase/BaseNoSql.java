@@ -24,25 +24,25 @@ import com.structures.SimpleList;
  */
 
 public class BaseNoSql {
-	
+
 	public String Coded = "";
 	public SimpleList<String> Huff = new SimpleList<String>();
-	
+
 	public SimpleList<SimpleList> Base = new SimpleList<SimpleList>();
-	
+
 	int ID=0;
 	JSONArray shapePathArray; 
-	
+
 	/*
-	 * Funcion que agrega canciones con todos sus parametros en la matriz
+	 * Funcion que agrega imagenes con todos sus parametros en la matriz
 	 * @param name - nombre de la imagen
 	 * @param author - autor de la imagen
-	 * @param year - ano en que se tomo la iagen
+	 * @param year - año en que se tomo la imagen
 	 * @param size - tamano de la imagen
 	 * @param description - descripcion de la imagen
 	 */
 	public void addImage(String name, String author, String year, String size, String description ) {
-		
+
 		SimpleList<String> newPic = new SimpleList<String>();
 		newPic.add(String.valueOf(ID));
 		newPic.add(name);
@@ -53,9 +53,9 @@ public class BaseNoSql {
 		Base.add(newPic);
 		ID=ID+1;
 		return;
-		
+
 	}
-	
+
 	/*
 	 * Funcion que modifica datos de la imagen
 	 * @param Id - numero de la imagen para saber cual cambiar
@@ -64,14 +64,14 @@ public class BaseNoSql {
 	 * @param newData - Dato que sera escrito sobre el anterior
 	 */
 	public void modifyData(int ID, int pos,String newData) {
-			for (int i=0;i<Base.size();i++) {
-				if(Base.get(i).get(0).equals(String.valueOf(ID))) {
-					Base.get(i).set(newData, pos);
-					System.out.println("Changed succesfully");
-				}	
-			}
+		for (int i=0;i<Base.size();i++) {
+			if(Base.get(i).get(0).equals(String.valueOf(ID))) {
+				Base.get(i).set(newData, pos);
+				System.out.println("Changed succesfully");
+			}	
 		}
-	
+	}
+
 	/*
 	 * Funcion para remover una imagen
 	 * @param Id - numero de la imagen para borrarse
@@ -85,7 +85,7 @@ public class BaseNoSql {
 			}
 		}
 	}
-	
+
 	/*
 	 * Funcion para imprimir la matriz de informacion
 	 */
@@ -96,10 +96,10 @@ public class BaseNoSql {
 				System.out.print(",");
 			}
 			System.out.println();
-		
+
 		}
 	}
-	
+
 	/*
 	 * Funcion para impirmir la lista de Huffman
 	 */
@@ -110,7 +110,7 @@ public class BaseNoSql {
 		}
 		System.out.println();
 	}
-	
+
 	/*
 	 * Funcion para retornar Imagenes por solicitud
 	 * @param request - informacion que se quiere comparar
@@ -121,25 +121,25 @@ public class BaseNoSql {
 	@SuppressWarnings("null")
 	public SimpleList<SimpleList> selectBy(int request, int retur,String thing){
 		SimpleList<SimpleList> last= new SimpleList<SimpleList>();
-		
+
 		for (int i=0;i<Base.size();i++) {
-			
+
 			if (thing.equals(Base.get(i).get(request))) {
 				SimpleList<String> tmp = new SimpleList<String>();
 				tmp.add((String) Base.get(i).get(0));
 				tmp.add((String)Base.get(i).get(retur));
 				last.add(tmp);
-				
+
 			}
 			else {
-				
+
 			}
-			
+
 		}
 		return last;
-		
+
 	}
-	
+
 	/*
 	 * Funcion de Huffman para los datos
 	 * @param word - string por compresionar
@@ -148,26 +148,26 @@ public class BaseNoSql {
 	public String Huffman(String word) {
 		Scanner s = new Scanner(System.in); 
 		Huffman h = new Huffman();
-		
+
 		/*
 		 * Condiciones iniciales para el Huffman
 		 * Se asignan las listas de chars y de repeticion para 
 		 * el string que se recibe
 		 */
-		
+
 		h.charRep(word);
-		
+
 		SimpleList<Integer> rep = h.rep;
 		SimpleList<String> letters = h.letters;
-		
+
 		int n = letters.size(); 
 
 		/*
 		 * Se crea un queue de prioridad
 		 */
-		
+
 		PriorityQueue<HuffmanNode> q 
-			= new PriorityQueue<HuffmanNode>(n, new MyComparator()); 
+		= new PriorityQueue<HuffmanNode>(n, new MyComparator()); 
 
 		for (int i = 0; i < n; i++) { 
 
@@ -186,7 +186,7 @@ public class BaseNoSql {
 			 * Se agrega el nodo al queue tambien
 			 */
 			q.add(hn); 
-			
+
 		} 
 
 		/* 
@@ -222,48 +222,45 @@ public class BaseNoSql {
 			f.c = '-'; 
 
 			f.left = x; 
- 
+
 			f.right = y; 
 
 			root = f; 
-			
+
 			/*
 			 * Se agrega al queue para que eventualmente vuelva a ser agregado
 			 */
 			q.add(f); 
-			
+
 		} 
 		h.printCode(root, "");
 		Huff = h.Table;
 		Coded = storeCodes(Huff, word); 
-		
-		
+
+
 		return Coded;
 	} 
-	
+
 	/*
 	 * Funcion para guardar la compresion del string
 	 * @param Table - Tabla de Huffman
 	 * @param str - string que se compresiona
 	 * @return string resultante de la compresion
 	 */
-	public String storeCodes(SimpleList Table, String str) 
-	{ 
+	public String storeCodes(SimpleList Table, String str){ 
 		String Coding = "";
 		//System.out.println("Size is "+str.length());
 		for (int i=0; i<str.length();i++) {
-			
+
 			for (int j=0; j<Table.size();j=j+2) {
-			
 				if (Character.toString(str.charAt(i)).equals(Table.get(j))) {
 					Coding+=Table.get(j+1);
-					}
+				}
 			}
 		}
 		return Coding;
 	}
-	
-	
+
 	/*
 	 * Funcion que retorna un string del Json que se convierte
 	 * @return string de la base
@@ -275,22 +272,14 @@ public class BaseNoSql {
 		shapePathArray = new JSONArray();
 		for(int i = 0; i < Base.size(); i++) {
 			String tmp = null;
-			for(int j=0;j<Base.get(i).size();j++) {
-				
-					tmp = (String) Base.get(i).get(j);
-				
-				 
-				 
-				 shapePathArray.add(tmp);
+			for(int j=0;j<Base.get(i).size();j++) {				
+				tmp = (String) Base.get(i).get(j);
+				shapePathArray.add(tmp);
 			}
-			
-			
 		}
 
 		// Serializa cada uno de los atributos
-		
 		obj.put("shapePath", shapePathArray);
-		
 
 		// Lo convierte a JSON
 		try (FileWriter file = new FileWriter("Source\\Mensajes.txt")) {
@@ -303,5 +292,4 @@ public class BaseNoSql {
 		}
 		return obj.toJSONString();
 	}
-	
-}
+}5

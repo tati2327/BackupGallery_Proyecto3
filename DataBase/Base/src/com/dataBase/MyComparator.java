@@ -3,9 +3,9 @@ package com.dataBase;
 import java.util.Comparator; 
 
 public class MyComparator implements Comparator<HuffmanNode> { 
-    public int compare(HuffmanNode x, HuffmanNode y) 
-    { 
-  
+	
+    public int compare(HuffmanNode x, HuffmanNode y){ 
         return x.data - y.data; 
-    } 
-} 
+    }
+    
+}
