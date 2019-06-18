@@ -11,9 +11,10 @@ public class Game {
 		myController.divideImage(null, img);	
 	}
 	
-	/*public byte[] getImage(int id) {
-		
-	}*/
+	public byte[] getImage(int id) throws IOException {
+		byte[] finalArray=myController.recoverImage(id);
+		return finalArray;
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
