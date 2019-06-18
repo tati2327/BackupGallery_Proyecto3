@@ -32,7 +32,12 @@ public class Controller extends JPanel {
     public SimpleList<Images> imagesList=new SimpleList();
 
     
-
+    /**
+     * loadImage
+     * Funcion que carga la imagen y crea 3 objetos Image para prepararlas para ser cortadas
+     * @param img
+     * @throws IOException
+     */
     public void loadImage(Images img) throws IOException {
         mainImage = ImageIO.read(new File("Incoming_Garbage/image."+img.getId()+".png"));
         imagesList.add(img);
@@ -49,7 +54,12 @@ public class Controller extends JPanel {
         
     }
     
-
+    /**
+     * divideImage
+     * Funcion encargada de dividir la imagen en 3 y asignar al objeto imagen cada dato importante para posteriormente acceder a cada parte
+     * @param g
+     * @param img
+     */
     public void divideImage(Graphics g, Images img) {
     	BufferedImage bufferedImage= new BufferedImage(imagePart1.getWidth(null), imagePart1.getHeight(null), BufferedImage.TYPE_INT_RGB);
     	bufferedImage.getGraphics().drawImage(imagePart1, 0, 0, null);
@@ -93,7 +103,15 @@ public class Controller extends JPanel {
          	
     }
     
-    
+    /**
+     * imageToBytes
+     * Funcion encargada de traducir un objeto imagen a bytes
+     * @param img
+     * @param diskNumber
+     * @param partIndex
+     * @return
+     * @throws IOException
+     */
     public byte[] imageToBytes(Images img, int diskNumber, int partIndex) throws IOException {
 		File file = new File("Disk"+diskNumber+"/image."+img.getId()+"."+partIndex+".png");
         BufferedImage originalImage = ImageIO.read(file);
@@ -104,6 +122,12 @@ public class Controller extends JPanel {
 		return imageInByte;
 	}
     
+    /**
+     * imageToSend
+     * Funcion encargada de guardar la imagen que vamos a enviar al cliente
+     * @return
+     * @throws IOException
+     */
     public byte[] imageToSend() throws IOException {
 		File file = new File("RestoreProcess/restoredImage.png");
         BufferedImage originalImage = ImageIO.read(file);
@@ -115,25 +139,31 @@ public class Controller extends JPanel {
 	}
     
     
-    
+    /**
+     * saveSubImage
+     * Se encarga de guardar la imagen reconstruida por el XOR	
+     * @param imageInByte
+     * @throws IOException
+     */
     public void saveSubImage(byte[] imageInByte) throws IOException {
     	try {
-    		//InputStream in = new ByteArrayInputStream(imageInByte);
-    		//BufferedImage josuu =ImageIO.read(in);
-    		//ImageIO.write(josuu,"png",new File("RestoreProcess/restoredImage.png"));
+    		
 	    	FileOutputStream fos= new FileOutputStream("RestoreProcess/restoredImage.png");
 	    	fos.write(imageInByte);
 	    	fos.close();
 	    	}catch ( IOException x ) {
 	            System.out.println("Hubo un error");
 	        }
-		/*ByteArrayInputStream bis = new ByteArrayInputStream(imageInByte);
-		BufferedImage bufferImage = ImageIO.read(bis);
-		ImageIO.write(bufferImage, "png", new File("Disk4/perroViejo.png") );*/
+		
         System.out.println("images saved");
 	}
     
-    
+    /**
+     *  convertTxtToBytes
+     * Se encarga de convertir los datos del txt a un array de bytes
+     * @param img
+     * @return
+     */
     public byte[] convertTxtToByte(Images img) {
     	byte[] parityArray=new byte[img.getParityLength()+1];
     	try {
@@ -156,7 +186,14 @@ public class Controller extends JPanel {
     	return parityArray;
     }
     
-    
+   /**
+    * saveIncomingImage
+    * Se encarga de guardar la imagen que entra del cliente en forma de bytes
+    * @param imageInByte
+    * @param id
+    * @return
+    * @throws IOException
+    */
     public Images saveIncomingImage(byte[] imageInByte, int id) throws IOException {
 		
 		ByteArrayInputStream bis = new ByteArrayInputStream(imageInByte);
@@ -167,7 +204,13 @@ public class Controller extends JPanel {
         System.out.println("images saved");
         return img;
 	}
-
+    
+    /**
+     * detectLostImage
+     * Se encarga de detectar la imagen que que fue eliminada
+     * @param id
+     * @return
+     */
     public int detectLostImage(int id) {
     	Scanner entry= new Scanner(System.in);
     	System.out.println("Digite su id: ");
@@ -210,7 +253,13 @@ public class Controller extends JPanel {
     	return partLost;	
     }	
     
-    
+    /**
+     * recoverImage
+     * Encargada de recuperar la imagen perdida
+     * @param id
+     * @return
+     * @throws IOException
+     */
 	public byte[] recoverImage(int id) throws IOException {
     	Images img=new Images();
     	int imageToRecoverSize=0;
@@ -285,6 +334,14 @@ public class Controller extends JPanel {
     	System.out.println("todo bien");
     	return finalArray;
     }
+	
+	/**
+	 * Compare
+	 * Se encarga de comparar el array que se elimino contra el creado por el XOR 
+	 * @param array1
+	 * @param array2
+	 * @return
+	 */
 	public boolean compare(byte[] array1, byte[] array2) {
 		System.out.println("holi si entre");
 		boolean result=false;
@@ -298,6 +355,16 @@ public class Controller extends JPanel {
 		}
 		return result;
 	}
+	
+	/**
+	 * XOR
+	 * Se encarga de generar un array de bytes sustituto para poder recuperar la imagen eliminada
+	 * @param img
+	 * @param list
+	 * @param top
+	 * @return
+	 * @throws IOException
+	 */
     public byte[] XOR( Images img, SimpleList<byte[]> list, int top) throws IOException {
     	byte[] parityArray=convertTxtToByte(img);
     	byte[] arrayToRestore=new byte[top];
@@ -323,7 +390,14 @@ public class Controller extends JPanel {
     	return arrayToRestore;
     }
     
-    
+    /**
+     * Parity
+     * Encargada de calcular la paridad entre los arrays en que se subdivide la imagen principal
+     * @param img
+     * @param temp1
+     * @param temp2
+     * @throws IOException
+     */
     public void parity(Images img,int temp1, int temp2) throws IOException {
     	byte[] array1= imageToBytes(img,img.getDiskPart1(),1);
     	System.out.println("largo array 1: "+array1.length);
@@ -413,7 +487,12 @@ public class Controller extends JPanel {
     	
   }
     
-    
+    /**
+     * reconstrucImage
+     * Encargada de reconstruir todos los pedazos de imagen en que se subdividio la imagen principal 
+     * @param img
+     * @param lostPart
+     */
     public void reconstructImage(Images img, int lostPart) {
         // Array of input images.
         BufferedImage[] input = new BufferedImage[3];
@@ -495,7 +574,11 @@ public class Controller extends JPanel {
             x.printStackTrace();
         } 
     }
-    
+    /**
+     * delete
+     * Se encarga de eliminar la imagen que el cliente solicita eliminar
+     * @param id
+     */
     public void delete(int id) {
     	Images toDelete=new Images();
     	for(int i=0;i<imagesList.size();i++) {
@@ -514,21 +597,65 @@ public class Controller extends JPanel {
     	d.delete();
 
     }
+    public byte[] txtToBytes() {
+    	byte[] parityArray=new byte[24895];
+    	try {
+	    	File file=new File("Incoming_Garbage/prueba.txt");
+	    	FileReader fr=new FileReader(file);
+	    	BufferedReader br =new BufferedReader(fr);
+	    	String line;
+	    	int i=0;
+	    	while((line=br.readLine())!=null){
+	    		parityArray[i]=(byte) Integer.parseInt(line);
+	    		i++;
+	    	}
+	    	 br.close();
+	    	 fr.close();
+	    	}catch ( IOException x ) {
+	            // Complain if there was any problem writing 
+	            // the output file.
+	            x.printStackTrace();
+	        } 
+    	return parityArray;
+    	
+    }
     
     public static void main(String[] args) throws IOException {
-    	Images img=new Images(5);
-    	Images img2=new Images(3);
+    	//Aqui cargo la imagen en bytes que estoy almacenando en un txt.
     	Controller co=new Controller();
-    	co.loadImage(img);
-    	co.divideImage(null,img);
+    	byte[] imageArray=co.txtToBytes();
+    	co.saveIncomingImage(imageArray, 1);
+    	
+    	
+    	Images img2=new Images(2);
+    	Images img3=new Images(3);
+    	Images img4=new Images(4);
+    	Images img5=new Images(5);
+    	
     	co.loadImage(img2);
     	co.divideImage(null,img2);
     	
-    	co.recoverImage(5);
-    co.delete(3);
-    	//co.saveSubImage(co.XOR(img));
-    	//System.out.print("La parte perdida es: "+co.detectLostImage(5));
-
+    	co.loadImage(img3);
+    	co.divideImage(null,img3);
+    	
+    	co.loadImage(img4);
+    	co.divideImage(null,img4);
+    	
+    	co.loadImage(img5);
+    	co.divideImage(null,img5);
+    	
+    	
+    	/*co.recoverImage(2);
+    	co.recoverImage(3);
+    	co.recoverImage(4);
+    	co.recoverImage(5);*/
+    	
+    	
+    	co.delete(2);
+    	co.delete(3);
+    	co.delete(4);
+    	co.delete(5);
+    	
     
     
     	
