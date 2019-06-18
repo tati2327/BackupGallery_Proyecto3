@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"com.sockets","l":"Client"},{"p":"com.sockets","l":"ClientJson"},{"p":"com.sockets","l":"ManageMessages"},{"p":"com.myIDE","l":"MyIde"}]
