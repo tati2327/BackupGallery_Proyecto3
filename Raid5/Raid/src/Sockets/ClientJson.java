@@ -1,4 +1,4 @@
-package com.socket;
+package Sockets;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,10 +15,24 @@ public class ClientJson {
 	 * @return string en formato JSON
 	 */
 	public String serializeConfirmation(boolean solution) {
-		JSONObject myJson = new JSONObarg0ject();
+		JSONObject myJson = new JSONObject();
 
-		myJson.put("request", 17);
-		myJson.put("solution", solution);
+		myJson.put("request", 9);
+		myJson.put("confirmation", solution);
+
+		return myJson.toJSONString();
+	}
+	
+	/**
+	 * Serializa el nombre del cliente
+	 * @param name - Nombre del cliente
+	 * @return
+	 */
+	public String serializeName(String name) {
+		JSONObject myJson = new JSONObject();
+
+		myJson.put("request", 1);
+		myJson.put("name", name);
 
 		return myJson.toJSONString();
 	}
@@ -36,8 +50,8 @@ public class ClientJson {
 			myImage.add(image[i]);
 		}
 		
-		myJson.put("request", 6);
-		myJson.put("imageBytes", myImage);
+		myJson.put("request", 8);
+		myJson.put("image", myImage);
 
 		return myJson.toJSONString();
 	}
@@ -101,4 +115,3 @@ public class ClientJson {
 		return myImage;
 	}
 }
-

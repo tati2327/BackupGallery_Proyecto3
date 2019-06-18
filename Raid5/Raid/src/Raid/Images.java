@@ -1,4 +1,4 @@
-package com.raid;
+package Raid;
 
 public class Images {
 	private int id;

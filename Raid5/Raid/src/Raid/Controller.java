@@ -1,11 +1,9 @@
-package com.raid;
+package Raid;
 
+import Structures.*;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.JPanel;
-
-import com.structures.*;
-
 import java.awt.image.BufferedImage;
 import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
@@ -106,10 +104,23 @@ public class Controller extends JPanel {
 		return imageInByte;
 	}
     
+    public byte[] imageToSend() throws IOException {
+		File file = new File("RestoreProcess/restoredImage.png");
+        BufferedImage originalImage = ImageIO.read(file);
+        ByteArrayOutputStream baos=new ByteArrayOutputStream();
+        ImageIO.write(originalImage, "png", baos);
+        byte[] imageInByte = baos.toByteArray();
+        System.out.println("Imagen pasada a bytes");
+		return imageInByte;
+	}
+    
     
     
     public void saveSubImage(byte[] imageInByte) throws IOException {
     	try {
+    		//InputStream in = new ByteArrayInputStream(imageInByte);
+    		//BufferedImage josuu =ImageIO.read(in);
+    		//ImageIO.write(josuu,"png",new File("RestoreProcess/restoredImage.png"));
 	    	FileOutputStream fos= new FileOutputStream("RestoreProcess/restoredImage.png");
 	    	fos.write(imageInByte);
 	    	fos.close();
@@ -200,7 +211,7 @@ public class Controller extends JPanel {
     }	
     
     
-	public void recoverImage(int id) throws IOException {
+	public byte[] recoverImage(int id) throws IOException {
     	Images img=new Images();
     	int imageToRecoverSize=0;
     	byte[] array1=new byte[0];
@@ -212,12 +223,14 @@ public class Controller extends JPanel {
     			img=imagesList.get(i);
     		}		
     	}
-    	byte[] arrayp=imageToBytes(img,img.getDiskPart1(),1);
+    	byte[] arrayp1 = imageToBytes(img,img.getDiskPart1(),1);
+    	byte[] arrayp2 = imageToBytes(img,img.getDiskPart2(),2);
+    	byte[] arrayp3 = imageToBytes(img,img.getDiskPart3(),3);
     	int partLost=detectLostImage(id);
-    	System.out.println(partLost);
-    	if(partLost==0 | partLost==4) {
+    	
+    	
     		////////////////////////////////Pegar la imagen y mandarla.//////////////////////
-    	}
+    	
     	
     	if (partLost==1) {
     		imageToRecoverSize=img.getPart1Length();
@@ -251,15 +264,26 @@ public class Controller extends JPanel {
     	
     	
     	System.out.println("llego antes");
-    	//System.out.println("los resultados son: "+ compare(arrayp,arr));
+    	if(partLost==1) {
+    		System.out.println("los resultados son: "+ compare(arrayp1,arr));
+    	}
+    	if(partLost==2) {
+    		System.out.println("los resultados son: "+ compare(arrayp2,arr));
+    	}
+    	if(partLost==3) {
+    		System.out.println("los resultados son: "+ compare(arrayp3,arr));
+    	}
+    	
+    	
 
     	
     	saveSubImage(arr);
-    	//reconstructImage(img, partLost);
+    	reconstructImage(img, partLost);
     	
+    	byte[] finalArray=imageToSend();
     	
     	System.out.println("todo bien");
-    	
+    	return finalArray;
     }
 	public boolean compare(byte[] array1, byte[] array2) {
 		System.out.println("holi si entre");
@@ -269,6 +293,7 @@ public class Controller extends JPanel {
 			else {
 				result=false;
 				System.out.println("esta malo en: "+i);
+				array2[i]=array1[i];
 			}
 		}
 		return result;
@@ -396,24 +421,43 @@ public class Controller extends JPanel {
         // Load each input image.
         // Assume they are called "image_0.png", "image_1.png",
         // etc.
-        int j;
-        for ( int i = 0; i < input.length; i++ ) {
-            try {
-            	System.out.println("intento "+i);
-            	File f= new File("RestoreProcess/restoredImage.png");;
-            	if(i!=lostPart-1) {
+        if(lostPart==0 | lostPart == 4) {
+        	for ( int i = 0; i < input.length; i++ ) {
+                try {
+                	System.out.println("intento "+i);
+                	File f= new File("RestoreProcess/restoredImage.png");
             		if(i==0) f = new File( "Disk"+img.getDiskPart1()+"/image."+img.getId()+"."+img.getIndexPart1()+".png" );
             		if(i==1) f = new File( "Disk"+img.getDiskPart2()+"/image."+img.getId()+"."+img.getIndexPart2()+".png" );
             		if(i==2) f = new File( "Disk"+img.getDiskPart3()+"/image."+img.getId()+"."+img.getIndexPart3()+".png" );
-            	}
-                input[i] = ImageIO.read( f );
-                System.out.println(i);
+                    input[i] = ImageIO.read( f );
+                    System.out.println(i);
+                }
+                catch ( IOException x ) {
+                    // Complain if there is any problem loading 
+                    // an input image.
+                    x.printStackTrace();
+                }
             }
-            catch ( IOException x ) {
-                // Complain if there is any problem loading 
-                // an input image.
-                x.printStackTrace();
-            }
+        }
+        if(lostPart!=0 & lostPart!=4) {
+	        for ( int i = 0; i < input.length; i++ ) {
+	            try {
+	            	System.out.println("intento "+i);
+	            	File f= new File("RestoreProcess/restoredImage.png");;
+	            	if(i!=lostPart-1) {
+	            		if(i==0) f = new File( "Disk"+img.getDiskPart1()+"/image."+img.getId()+"."+img.getIndexPart1()+".png" );
+	            		if(i==1) f = new File( "Disk"+img.getDiskPart2()+"/image."+img.getId()+"."+img.getIndexPart2()+".png" );
+	            		if(i==2) f = new File( "Disk"+img.getDiskPart3()+"/image."+img.getId()+"."+img.getIndexPart3()+".png" );
+	            	}
+	                input[i] = ImageIO.read( f );
+	                System.out.println(i);
+	            }
+	            catch ( IOException x ) {
+	                // Complain if there is any problem loading 
+	                // an input image.
+	                x.printStackTrace();
+	            }
+	        }
         }
          
         // Create the output image.
@@ -452,15 +496,40 @@ public class Controller extends JPanel {
         } 
     }
     
+    public void delete(int id) {
+    	Images toDelete=new Images();
+    	for(int i=0;i<imagesList.size();i++) {
+    		if(imagesList.get(i).getId()==id) {
+    			toDelete=imagesList.get(i);
+    			imagesList.remove(i);
+    		}		
+    	}
+    	File a=new File( "Disk"+toDelete.getDiskPart1()+"/image."+toDelete.getId()+"."+toDelete.getIndexPart1()+".png" );
+    	File b=new File( "Disk"+toDelete.getDiskPart2()+"/image."+toDelete.getId()+"."+toDelete.getIndexPart2()+".png" );
+    	File c=new File( "Disk"+toDelete.getDiskPart3()+"/image."+toDelete.getId()+"."+toDelete.getIndexPart3()+".png" );
+    	File d=new File("Disk"+toDelete.getDiskParity()+"/image."+toDelete.getId()+"."+toDelete.getIndexParity()+".txt");
+    	a.delete();
+    	b.delete();
+    	c.delete();
+    	d.delete();
+
+    }
+    
     public static void main(String[] args) throws IOException {
     	Images img=new Images(5);
+    	Images img2=new Images(3);
     	Controller co=new Controller();
     	co.loadImage(img);
     	co.divideImage(null,img);
+    	co.loadImage(img2);
+    	co.divideImage(null,img2);
+    	
     	co.recoverImage(5);
-    
+    co.delete(3);
     	//co.saveSubImage(co.XOR(img));
     	//System.out.print("La parte perdida es: "+co.detectLostImage(5));
+
+    
     
     	
     	

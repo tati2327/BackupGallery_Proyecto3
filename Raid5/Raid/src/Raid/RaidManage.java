@@ -1,8 +1,8 @@
-package com.raid;
+package Raid;
 
 import java.io.IOException;
 
-public class Game {
+public class RaidManage {
 	Controller myController;
 	
 	public void saveImage(byte[] incoming, int id) throws IOException {
@@ -11,13 +11,12 @@ public class Game {
 		myController.divideImage(null, img);	
 	}
 	
-	/*public byte[] getImage(int id) {
-		
-	}*/
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public byte[] getImage(int id) throws IOException {
+		byte[] finalArray=myController.recoverImage(id);
+		return finalArray;
 	}
-
+	
+	public void delete(int id) {
+		myController.delete(id);
+	}
 }

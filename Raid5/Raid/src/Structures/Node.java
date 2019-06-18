@@ -1,4 +1,4 @@
-package com.structures;
+package Structures;
 
 
 public class Node <T>{
