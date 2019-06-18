@@ -4,7 +4,6 @@ public class ManageMessages {
 	
 	String toSend=null;
 	ClientJson myJson = new ClientJson();
-	BaseN
 
 	/**
 	 * Lee el mensaje que llega del servidor y segun sea la 

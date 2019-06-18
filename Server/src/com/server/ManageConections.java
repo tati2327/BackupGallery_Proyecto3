@@ -34,6 +34,7 @@ public class ManageConections {
 		try {
 			//Se envia el mensaje
 			DataOutputStream out = new DataOutputStream(myClients.get(client).client.getOutputStream());
+			System.out.println("CLIENT "+myClients.get(client)+": "+message);
 			out.writeUTF(message);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

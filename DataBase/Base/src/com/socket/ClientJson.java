@@ -76,13 +76,19 @@ public class ClientJson {
 
 	public String serializeMetadata(SimpleList<SimpleList> base) {
 		JSONObject myJson = new JSONObject();
+		JSONArray myMetadata = new JSONArray();
+		JSONArray packages = new JSONArray();
 
-		/*myJson.put("request", 13);
-		myJson.put("name", name);
-		myJson.put("author", author);
-		myJson.put("year", year);
-		myJson.put("size", size);
-		myJson.put("description", description);*/
+		for(int i=0; i<base.size(); i++) {
+			for(int j=0; j<base.get(i).size(); j++) {
+				packages.add(base.get(i).get(j));
+			}
+			myMetadata.add(packages);
+			packages.clear();
+		}
+		
+		myJson.put("request", 12);
+		myJson.put("data", myMetadata);
 
 		return myJson.toJSONString();
 	}

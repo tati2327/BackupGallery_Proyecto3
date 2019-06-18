@@ -34,7 +34,9 @@ public class Client {
 				}
 				
 				message = in.readUTF();
+				System.out.println("SERVER: "+message);
 				toSend = myManage.readMessage(message);
+				System.out.println("CLIENTE: "+message);
 				out.writeUTF(toSend);
 			}	
 		} catch (UnknownHostException e) {
@@ -46,13 +48,5 @@ public class Client {
 		}
 		
 	}
-
-	/**
-	 * La aplicación se corre desde aquí!!!!!!
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Client c = new Client();
-		c.newClient();
-	}
+	
 }

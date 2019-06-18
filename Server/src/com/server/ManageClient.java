@@ -38,6 +38,7 @@ public class ManageClient extends Thread {
 		while(true) {
 			try {		
 				message = in.readUTF();
+				System.out.println("CLIENT: "+message);
 				request = myJson.getRequest(message);
 
 				//Configurar el nombre

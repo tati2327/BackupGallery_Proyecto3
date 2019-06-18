@@ -1,6 +1,6 @@
-package com.dataBase;
+package com.database;
 
-import com.dataBase.HuffmanNode;
+import com.database.HuffmanNode;
 import com.structures.SimpleList;
 
 public class Huffman { 

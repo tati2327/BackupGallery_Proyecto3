@@ -10,8 +10,6 @@ import com.structures.Node;
  * 			{@code ListaSimple<T> name = ListaSimple<>();}
  * 
  * @param <T> - El tipo de los elementos que countiene la lista.
- * @author Esteban Alvzarado Vargas | Pablo Carmona Ulate | Tatiana Chacón Mora
- * @version 7/08/2018
  * 
  */
 public class SimpleList <T> {

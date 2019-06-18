@@ -1,17 +1,9 @@
-package com.dataBase;
+package com.database;
 
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.util.PriorityQueue;
 import java.util.Scanner;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
-import com.dataBase.Huffman;
-import com.dataBase.HuffmanNode;
-import com.dataBase.MyComparator;
 import com.structures.SimpleList;
 
 /*
@@ -31,7 +23,7 @@ public class BaseNoSql {
 	public SimpleList<SimpleList> Base = new SimpleList<SimpleList>();
 
 	int ID=0;
-	JSONArray shapePathArray; 
+	//JSONArray shapePathArray; 
 
 	/*
 	 * Funcion que agrega imagenes con todos sus parametros en la matriz
@@ -141,7 +133,6 @@ public class BaseNoSql {
 
 			}
 		return last;
-
 	}
 	
 	@SuppressWarnings("unlikely-arg-type")
@@ -286,7 +277,7 @@ public class BaseNoSql {
 	 * Funcion que retorna un string del Json que se convierte
 	 * @return string de la base
 	 */
-	public String toJson() {
+	/*public String toJson() {
 		JSONObject obj = new JSONObject();
 
 		// Crea el JSONArray
@@ -312,5 +303,5 @@ public class BaseNoSql {
 			e.printStackTrace();
 		}
 		return obj.toJSONString();
-	}
+	}*/
 }

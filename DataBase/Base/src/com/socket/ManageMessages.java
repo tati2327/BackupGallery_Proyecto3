@@ -4,7 +4,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.dataBase.BaseNoSql;
+import com.database.BaseNoSql;
 
 public class ManageMessages {
 
@@ -33,9 +33,12 @@ public class ManageMessages {
 
 			switch (request) {
 			case 2: //SELECT
-				String columnName = myJsonObject.get(arg0)
+				String columnName = (String) myJsonObject.get("columnName");
+				if(columnName=="*") {
+					return toSend = myJson.serializeMetadata(myDataBase.Base);
+				}
 
-				return toSend;
+				return toSend= myJson.serializeMetadata(myDataBase.selectBy(this.getColumnValue(columnName)));
 			case 3: //UPDATE
 				String columnChange = (String) myJsonObject.get("columnName");
 				String valueChange = (String) myJsonObject.get("value");
@@ -69,11 +72,6 @@ public class ManageMessages {
 				myDataBase.addImage(name, author, year, size, description);
 				toSend=myJson.serializeConfirmation(true);
 				
-				return toSend;
-			case 15: //OPEN IMAGE BUTTON
-				
-				
-
 				return toSend;
 			case 16: //DELETE IMAGE BUTTON
 				int id = myJson.getId(message);
