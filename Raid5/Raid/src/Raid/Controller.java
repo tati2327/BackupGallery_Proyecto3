@@ -515,24 +515,63 @@ public class Controller extends JPanel {
 
     }
     
+    public byte[] txtToBytes() {
+    	byte[] parityArray=new byte[24895];
+    	try {
+	    	File file=new File("Incoming_Garbage/prueba.txt");
+	    	FileReader fr=new FileReader(file);
+	    	BufferedReader br =new BufferedReader(fr);
+	    	String line;
+	    	int i=0;
+	    	while((line=br.readLine())!=null){
+	    		parityArray[i]=(byte) Integer.parseInt(line);
+	    		i++;
+	    	}
+	    	 br.close();
+	    	 fr.close();
+	    	}catch ( IOException x ) {
+	            // Complain if there was any problem writing 
+	            // the output file.
+	            x.printStackTrace();
+	        } 
+    	return parityArray;
+    	
+    }
+    
     public static void main(String[] args) throws IOException {
-    	Images img=new Images(5);
-    	Images img2=new Images(3);
+    	//Aqui cargo la imagen en bytes que estoy almacenando en un txt.
     	Controller co=new Controller();
-    	co.loadImage(img);
-    	co.divideImage(null,img);
+    	byte[] imageArray=co.txtToBytes();
+    	co.saveIncomingImage(imageArray, 1);
+    	
+    	
+    	Images img2=new Images(2);
+    	Images img3=new Images(3);
+    	Images img4=new Images(4);
+    	Images img5=new Images(5);
+    	
     	co.loadImage(img2);
     	co.divideImage(null,img2);
     	
-    	co.recoverImage(5);
-    co.delete(3);
-    	//co.saveSubImage(co.XOR(img));
-    	//System.out.print("La parte perdida es: "+co.detectLostImage(5));
-
-    
-    
+    	co.loadImage(img3);
+    	co.divideImage(null,img3);
+    	
+    	co.loadImage(img4);
+    	co.divideImage(null,img4);
+    	
+    	co.loadImage(img5);
+    	co.divideImage(null,img5);
     	
     	
+    	/*co.recoverImage(2);
+    	co.recoverImage(3);
+    	co.recoverImage(4);
+    	co.recoverImage(5);*/
     	
+    	
+    	co.delete(2);
+    	co.delete(3);
+    	co.delete(4);
+    	co.delete(5);
     }
 }

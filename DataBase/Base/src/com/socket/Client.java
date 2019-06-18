@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import com.database.BaseNoSql;
+
 public class Client {
 	
 	static final String HOST = "127.0.0.1";

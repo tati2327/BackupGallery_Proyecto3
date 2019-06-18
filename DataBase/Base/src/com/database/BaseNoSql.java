@@ -4,6 +4,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.PriorityQueue;
 import java.util.Scanner;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import com.structures.SimpleList;
 
 /*
@@ -19,12 +24,9 @@ public class BaseNoSql {
 
 	public String Coded = "";
 	public SimpleList<String> Huff = new SimpleList<String>();
-
 	public SimpleList<SimpleList> Base = new SimpleList<SimpleList>();
-
 	int ID=0;
-	//JSONArray shapePathArray; 
-
+	
 	/*
 	 * Funcion que agrega imagenes con todos sus parametros en la matriz
 	 * @param name - nombre de la imagen
@@ -113,10 +115,10 @@ public class BaseNoSql {
 		System.out.println();
 	}
 
-	/*
+	/**
 	 * Funcion para retornar Imagenes por solicitud
 	 * @param request - informacion que se quiere comparar
-	 * @param retur - informacion que se quiere sabar
+	 * @param retur - informacion que se quiere saber
 	 * @param thing - string por comparar
 	 * 
 	 */
@@ -277,31 +279,29 @@ public class BaseNoSql {
 	 * Funcion que retorna un string del Json que se convierte
 	 * @return string de la base
 	 */
-	/*public String toJson() {
-		JSONObject obj = new JSONObject();
-
-		// Crea el JSONArray
-		shapePathArray = new JSONArray();
-		for(int i = 0; i < Base.size(); i++) {
-			String tmp = null;
-			for(int j=0;j<Base.get(i).size();j++) {				
-				tmp = (String) Base.get(i).get(j);
-				shapePathArray.add(tmp);
+	public String toJson() {
+		JSONObject myJson = new JSONObject();
+		JSONArray myMetadata = new JSONArray();
+		
+		for(int i=0; i<Base.size(); i++) {
+			JSONArray packages = new JSONArray();
+			for(int j=0; j<Base.get(i).size(); j++) {
+				packages.add(Base.get(i).get(j));
 			}
+			myMetadata.add(packages);
 		}
-
-		// Serializa cada uno de los atributos
-		obj.put("shapePath", shapePathArray);
+		
+		myJson.put("DataBase", myMetadata);
 
 		// Lo convierte a JSON
 		try (FileWriter file = new FileWriter("Source\\Mensajes.txt")) {
-			file.write(Huffman(obj.toJSONString()));
+			file.write(Huffman(myJson.toJSONString()));
 			//file.write(obj.toJSONString());
 			printList();
 			file.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return obj.toJSONString();
-	}*/
+		return myJson.toJSONString();
+	}
 }
