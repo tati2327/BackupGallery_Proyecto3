@@ -26,22 +26,8 @@
 *.a
 *.lib
 
-
-
-
 # Executables
 *.exe
 *.out
 *.app
-
-CMakeLists.txt/
-
-CMakeLists.txt.user/
-
-\.idea/
-cmake-build-debug/
-<<<<<<< HEAD
-=======
-
->>>>>>> Tatiana
-CMakeLists\.txt\.user
+/bin/
