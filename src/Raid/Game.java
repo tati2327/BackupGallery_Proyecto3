@@ -15,6 +15,10 @@ public class Game {
 		byte[] finalArray=myController.recoverImage(id);
 		return finalArray;
 	}
+	
+	public void delete(int id) {
+		myController.delete(id);
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
