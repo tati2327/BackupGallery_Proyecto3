@@ -19,7 +19,7 @@ public class ManageMessages {
 	 * @return
 	 */
 	public String readMessage(String message) {
-		int request=myJson.getRequest(message);
+		String request=myJson.getRequest(message);
 		JSONParser parser = new JSONParser();
 		JSONObject myJsonObject = new JSONObject();
 
@@ -32,14 +32,14 @@ public class ManageMessages {
 
 
 			switch (request) {
-			case 2: //SELECT
+			case "2": //SELECT
 				String columnName = (String) myJsonObject.get("columnName");
 				if(columnName=="*") {
 					return toSend = myJson.serializeMetadata(myDataBase.Base);
 				}
 
 				return toSend= myJson.serializeMetadata(myDataBase.selectBy(this.getColumnValue(columnName)));
-			case 3: //UPDATE
+			case "3": //UPDATE
 				String columnChange = (String) myJsonObject.get("columnName");
 				String valueChange = (String) myJsonObject.get("value");
 				columnCondition = (String) myJsonObject.get("condition");
@@ -49,35 +49,36 @@ public class ManageMessages {
 				columnConditionValue = this.getColumnValue(columnCondition);
 
 				if(myDataBase.modifyData(columnConditionValue, valueCondition, columnChangeValue, valueChange)) {
-					toSend = myJson.serializeConfirmation(true);
+					toSend = myJson.serializeConfirmation("true");
 					return toSend;
 				}
 
-				toSend = myJson.serializeConfirmation(false);
+				toSend = myJson.serializeConfirmation("true");
 				return toSend;
-			case 4: //DELETE
+			case "4": //DELETE
 				columnCondition = (String) myJsonObject.get("condition");
 				valueCondition = (String) myJsonObject.get("valueContition,,");
 				columnConditionValue = this.getColumnValue(columnCondition);
 				
 				myDataBase.deleteImagebyCondition(columnConditionValue, valueCondition);
-				return toSend=myJson.serializeConfirmation(true);
-			case 5: //INSERT
+				return toSend=myJson.serializeConfirmation("true");
+			case "5": //INSERT
 				String name = myJson.getName(message);
 				String author = myJson.getAuthor(message);
-				String year = Integer.toString(myJson.getYear(message));
-				String size = Integer.toString(myJson.getSize(message));
+				String year = myJson.getYear(message);
+				String size = myJson.getSize(message);
 				String description = myJson.getDescription(message);
 				
 				myDataBase.addImage(name, author, year, size, description);
-				toSend=myJson.serializeConfirmation(true);
+				toSend=myJson.serializeConfirmation("true");
 				
 				return toSend;
-			case 16: //DELETE IMAGE BUTTON
-				int id = myJson.getId(message);
-				myDataBase.deleteImage(id);
+			case "16": //DELETE IMAGE BUTTON
+				String id = myJson.getId(message);
+				int temp = Integer.parseInt((id));
+				myDataBase.deleteImage(temp);
 
-				return toSend=myJson.serializeConfirmation(true);
+				return toSend=myJson.serializeConfirmation("true");
 			default:
 				break;
 			}

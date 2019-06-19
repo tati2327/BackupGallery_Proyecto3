@@ -22,7 +22,7 @@ public class ManageMessages {
 	 * @return
 	 */
 	public String readMessage(String message) {
-		int request=myJson.getRequest(message);
+		String request=myJson.getRequest(message);
 		JSONParser parser = new JSONParser();
 		JSONObject myJsonObject = new JSONObject();
 		int id=0;
@@ -31,7 +31,7 @@ public class ManageMessages {
 			myJsonObject = (JSONObject) parser.parse(message);
 			
 			switch (request) {
-			case 6: //Cuando el server pide una imagen por el boton abrir
+			case "6": //Cuando el server pide una imagen por el boton abrir
 				id = (int) myJsonObject.get("id");
 				byte[] image=null;
 				try {
@@ -41,7 +41,7 @@ public class ManageMessages {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			case 15: //Add image
+			case "15": //Add image
 				JSONArray myImage = new JSONArray();
 				myImage = (JSONArray) myJsonObject.get("image");
 				
@@ -51,13 +51,13 @@ public class ManageMessages {
 					newImage[i] = (byte) myImage.get(i);
 				}
 				
-				return toSend=myJson.serializeConfirmation(true);
-			case 7: //DELETE IMAGE BUTTON
+				return toSend=myJson.serializeConfirmation("true");
+			case "7": //DELETE IMAGE BUTTON
 				id = (int) myJsonObject.get("id");
 				myRaid.delete(id);
 				
-				return toSend=myJson.serializeConfirmation(true);
-			case 13: //DELETE IMAGE desde la base de datos
+				return toSend=myJson.serializeConfirmation("true");
+			case "13": //DELETE IMAGE desde la base de datos
 				JSONArray ids = new JSONArray();
 				ids = (JSONArray) myJsonObject.get("idList");
 				int temp=0;
@@ -67,7 +67,7 @@ public class ManageMessages {
 					myRaid.delete(temp);
 				}
 				
-				return toSend = myJson.serializeConfirmation(true);
+				return toSend = myJson.serializeConfirmation("true");
 				
 			default:
 				break;
@@ -79,5 +79,4 @@ public class ManageMessages {
 		
 		return null;
 	}
-
 }

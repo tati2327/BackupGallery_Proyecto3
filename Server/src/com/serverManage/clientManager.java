@@ -13,16 +13,16 @@ public class clientManager {
 	ManageConections myManageConections = new ManageConections();
 	
 	public void readMessage(String message) {
-		int request = myJson.getRequest(message);
+		String request = myJson.getRequest(message);
 		
 		switch (request) {
-		case 2: //SELECT
+		case "2": //SELECT
 			myManageConections.sendMessage("dataBase", message);
-		case 3: //UPDATE
+		case "3": //UPDATE
 			myManageConections.sendMessage("dataBase", message);
-		case 4: //DELETE
+		case "4": //DELETE
 			myManageConections.sendMessage("dataBase", message);
-		case 5: //INSERT
+		case "5": //INSERT
 			JSONParser parser 	  = new JSONParser();
 			JSONObject myJsonTemp = new JSONObject();
 			JSONArray myArray 	  = new JSONArray();
@@ -50,11 +50,11 @@ public class clientManager {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		case 6: //OPEN IMAGE BUTTONS
+		case "6": //OPEN IMAGE BUTTONS
 			myManageConections.sendMessage("raid", message);
-		case 7: //DELETE IMAGE BUTTONS
+		case "7": //DELETE IMAGE BUTTONS
 			myManageConections.sendMessage("dataBase", message);
-			myManageConections.setDoubleConfirmation(true);
+			myManageConections.setDoubleConfirmation("true");
 			myManageConections.sendMessage("raid", message);
 		default:
 			break;

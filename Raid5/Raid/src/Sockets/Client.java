@@ -20,7 +20,7 @@ public class Client {
 	
 	String message, toSend;
 	
-	public void newClient() {
+	public void newClient() throws InterruptedException {
 		try {
 			Socket socket = new Socket(HOST, PUERTO);
 			
@@ -29,14 +29,18 @@ public class Client {
 			
 			while(true) {
 				if(init) {
-					out.writeUTF(myJson.serializeName("raid"));
+					Thread.sleep (1000);
+					toSend = myJson.serializeName("raid");
+					out.writeUTF(toSend);
+					System.out.println("RAID: "+toSend);
 					init = false;
 				}
 				
 				message = in.readUTF();
 				System.out.println("SERVER: "+message);
+				Thread.sleep(1000);
 				toSend = myManage.readMessage(message);
-				System.out.println("CLIENTE: "+message);
+				System.out.println("RAID: "+message);
 				out.writeUTF(toSend);
 			}	
 		} catch (UnknownHostException e) {
@@ -52,8 +56,9 @@ public class Client {
 	/**
 	 * La aplicación se corre desde aquí!!!!!!
 	 * @param args
+	 * @throws InterruptedException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		Client c = new Client();
 		c.newClient();
 	}

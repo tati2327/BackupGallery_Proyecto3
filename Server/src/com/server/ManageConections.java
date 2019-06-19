@@ -11,13 +11,13 @@ public class ManageConections {
 
 	static SimpleList<ManageClient> myClients =  new SimpleList<ManageClient>();
 	static byte[] image;
-	static boolean doubleConfirmation=false;
+	static String doubleConfirmation="false";
 	
-	public boolean isDoubleConfirmation() {
+	public String isDoubleConfirmation() {
 		return doubleConfirmation;
 	}
 
-	public void setDoubleConfirmation(boolean doubleConfirmation) {
+	public void setDoubleConfirmation(String doubleConfirmation) {
 		this.doubleConfirmation = doubleConfirmation;
 	}
 
@@ -37,7 +37,6 @@ public class ManageConections {
 			System.out.println("CLIENT "+myClients.get(client)+": "+message);
 			out.writeUTF(message);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

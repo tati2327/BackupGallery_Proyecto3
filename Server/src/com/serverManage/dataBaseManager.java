@@ -14,13 +14,13 @@ public class dataBaseManager {
 	
 	//Mensajes que recibe 
 	public void readMessage(String message) {
-		int request = myJson.getRequest(message);
+		String request = myJson.getRequest(message);
 		
 		switch (request) {
-		case 10: //CONFIRMATION
+		case "10": //CONFIRMATION
 			myManageConections.sendMessage("client", message);
 			break;
-		case 11: //ID de la imagen (Para el RAID)
+		case "11": //ID de la imagen (Para el RAID)
 			JSONParser parser = new JSONParser();
 			JSONObject myJsonTemp;
 			int id=0;
@@ -35,10 +35,10 @@ public class dataBaseManager {
 				e.printStackTrace();
 			}
 			break;
-		case 12: //SEND METADA 
+		case "12": //SEND METADA 
 			myManageConections.sendMessage("client", message);
 			break;
-		case 13: //DELETE
+		case "13": //DELETE
 			myManageConections.sendMessage("raid", message);
 			break;
 		default:

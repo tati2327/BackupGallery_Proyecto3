@@ -35,7 +35,7 @@ public class Server {
 				
 				//Se le agrega al cliente un administrador 
 				ManageClient newClient = new ManageClient(client, in_temp, out_temp);
-				newClient.run();
+				newClient.start();
 				myConections.myClients.add(newClient);
 				
 				//Solo para ver los clientes conectados
@@ -52,5 +52,12 @@ public class Server {
 	public static void main(String[] args) throws IOException {
 		Server myServer = new Server();
 		myServer.multiclient();
+		
+		/*ServerJson se= new ServerJson();
+		String m = se.serializeName("luis");
+		String mi = se.serializeConfirmation("tryue");
+		String yu = se.getName(m);
+		System.out.println(mi);*/
+		
 	}
 }

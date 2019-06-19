@@ -16,10 +16,10 @@ public class ClientJson {
 	 * @param solution
 	 * @return string en formato JSON
 	 */
-	public String serializeConfirmation(boolean solution) {
+	public String serializeConfirmation(String solution) {
 		JSONObject myJson = new JSONObject();
 
-		myJson.put("request", 10);
+		myJson.put("request", "10");
 		myJson.put("confirmation", solution);
 
 		return myJson.toJSONString();
@@ -33,7 +33,7 @@ public class ClientJson {
 	public String serializeName(String name) {
 		JSONObject myJson = new JSONObject();
 
-		myJson.put("request", 1);
+		myJson.put("request", "1");
 		myJson.put("name", name);
 
 		return myJson.toJSONString();
@@ -45,10 +45,10 @@ public class ClientJson {
 	 * @param id
 	 * @return string en formato JSON
 	 */
-	public String serializeSendIdImg(int id) {
+	public String serializeSendIdImg(String id) {
 		JSONObject myJson = new JSONObject();
 
-		myJson.put("request", 11);
+		myJson.put("request", "11");
 		myJson.put("id", id);
 
 		return myJson.toJSONString();
@@ -68,7 +68,7 @@ public class ClientJson {
 			myArray.add(id[i]);
 		}
 		
-		myJson.put("request", 13);
+		myJson.put("request", "13");
 		myJson.put("idList", myArray);
 
 		return myJson.toJSONString();
@@ -87,7 +87,7 @@ public class ClientJson {
 			packages.clear();
 		}
 		
-		myJson.put("request", 12);
+		myJson.put("request", "12");
 		myJson.put("data", myMetadata);
 
 		return myJson.toJSONString();
@@ -111,15 +111,15 @@ public class ClientJson {
 		return name;
 	}
 
-	public int getRequest(String objet) {
+	public String getRequest(String objet) {
 
 		JSONParser parser = new JSONParser();
 		JSONObject myJson;
-		int request = 0;
+		String request = null;
 
 		try {
 			myJson = (JSONObject) parser.parse(objet);
-			request = (int) myJson.get("request");
+			request = (String) myJson.get("request");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -145,15 +145,15 @@ public class ClientJson {
 		return author;
 	}
 	
-	public int getYear(String objet) {
+	public String getYear(String objet) {
 
 		JSONParser parser = new JSONParser();
 		JSONObject myJson;
-		int year = 0;
+		String year = null;
 
 		try {
 			myJson = (JSONObject) parser.parse(objet);
-			year = (int) myJson.get("year");
+			year = (String) myJson.get("year");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -162,15 +162,15 @@ public class ClientJson {
 		return year;
 	}
 	
-	public int getSize(String objet) {
+	public String getSize(String objet) {
 
 		JSONParser parser = new JSONParser();
 		JSONObject myJson;
-		int size = 0;
+		String size = null;
 
 		try {
 			myJson = (JSONObject) parser.parse(objet);
-			size = (int) myJson.get("size");
+			size = (String) myJson.get("size");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -247,15 +247,15 @@ public class ClientJson {
 		return condition;
 	}
 	
-	public int getId(String objet) {
+	public String getId(String objet) {
 
 		JSONParser parser = new JSONParser();
 		JSONObject myJson;
-		int id = 0;
+		String id = null;
 
 		try {
 			myJson = (JSONObject) parser.parse(objet);
-			id = (int) myJson.get("id");
+			id = (String) myJson.get("id");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

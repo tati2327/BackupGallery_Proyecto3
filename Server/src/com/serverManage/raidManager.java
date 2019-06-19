@@ -9,14 +9,14 @@ public class raidManager {
 	ManageConections myManageConections = new ManageConections();
 	
 	public void readMessage(String message) {
-		int request = myJson.getRequest(message);
+		String request = myJson.getRequest(message);
 		
 		switch (request) {
-		case 6: //SEND IMAGE
+		case "6": //SEND IMAGE
 			myManageConections.sendMessage("client", message);
 			break;
-		case 7: //CONFIRMATION
-			if(!myManageConections.isDoubleConfirmation()) {
+		case "7": //CONFIRMATION
+			if(myManageConections.isDoubleConfirmation()=="false") {
 				myManageConections.sendMessage("client", message);
 			}
 			break;

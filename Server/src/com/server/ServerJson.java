@@ -16,10 +16,10 @@ public class ServerJson {
 	 * @param solution
 	 * @return string en formato JSON
 	 */
-	public String serializeConfirmation(boolean solution) {
+	public String serializeConfirmation(String solution) {
 		JSONObject myJson = new JSONObject();
 
-		myJson.put("request", 14);
+		myJson.put("request", "14");
 		myJson.put("confirmation", solution);
 
 		return myJson.toJSONString();
@@ -33,26 +33,26 @@ public class ServerJson {
 			myImage.add(image[i]);
 		}
 		
-		myJson.put("request", 10);
+		myJson.put("request", "10");
 		myJson.put("id", id);
 		myJson.put("image", myImage);
 		
 		return myJson.toJSONString();
 	}
 	
-	public String serializeGetImgRaid(int id) {
+	public String serializeGetImgRaid(String id) {
 		JSONObject myJson = new JSONObject();
 		
-		myJson.put("request", 11);
+		myJson.put("request", "11");
 		myJson.put("id", id);
 		
 		return myJson.toJSONString();
 	}
 	
-	public String serializeDeleteImgRaid(int id) {
+	public String serializeDeleteImgRaid(String id) {
 		JSONObject myJson = new JSONObject();
 		
-		myJson.put("request", 12);
+		myJson.put("request", "12");
 		myJson.put("delete", id);
 		
 		return myJson.toJSONString();
@@ -62,13 +62,22 @@ public class ServerJson {
 	public String serializeInsertDB(String name, String author, int year, int size, String description) {
 		JSONObject myJson = new JSONObject();
 		
-		myJson.put("request", 13);
+		myJson.put("request", "13");
 		myJson.put("name", name);
 		myJson.put("author", author);
 		myJson.put("year", year);
 		myJson.put("size", size);
 		myJson.put("description", description);
 		
+		return myJson.toJSONString();
+	}
+	
+	public String serializeName(String name) {
+		JSONObject myJson = new JSONObject();
+
+		myJson.put("request", "1");
+		myJson.put("name", name);
+
 		return myJson.toJSONString();
 	}
 	
@@ -90,15 +99,15 @@ public class ServerJson {
 		return name;
 	}
 	
-	public int getRequest(String objet) {
+	public String getRequest(String objet) {
 
 		JSONParser parser = new JSONParser();
 		JSONObject myJson;
-		int request = 0;
+		String request = null;
 
 		try {
 			myJson = (JSONObject) parser.parse(objet);
-			request = (int) myJson.get("request");
+			request = (String) myJson.get("request");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -14,10 +14,10 @@ public class ClientJson {
 	 * @param solution
 	 * @return string en formato JSON
 	 */
-	public String serializeConfirmation(boolean solution) {
+	public String serializeConfirmation(String solution) {
 		JSONObject myJson = new JSONObject();
 
-		myJson.put("request", 9);
+		myJson.put("request", "9");
 		myJson.put("confirmation", solution);
 
 		return myJson.toJSONString();
@@ -31,7 +31,7 @@ public class ClientJson {
 	public String serializeName(String name) {
 		JSONObject myJson = new JSONObject();
 
-		myJson.put("request", 1);
+		myJson.put("request", "1");
 		myJson.put("name", name);
 
 		return myJson.toJSONString();
@@ -50,7 +50,7 @@ public class ClientJson {
 			myImage.add(image[i]);
 		}
 		
-		myJson.put("request", 8);
+		myJson.put("request", "8");
 		myJson.put("image", myImage);
 
 		return myJson.toJSONString();
@@ -58,15 +58,15 @@ public class ClientJson {
 
 	/*---------------------------- DESERIALIZAR ----------------------------------------*/
 
-	public int getRequest(String objet) {
+	public String getRequest(String objet) {
 
 		JSONParser parser = new JSONParser();
 		JSONObject myJson;
-		int request = 0;
+		String request = null;
 
 		try {
 			myJson = (JSONObject) parser.parse(objet);
-			request = (int) myJson.get("request");
+			request = (String) myJson.get("request");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
